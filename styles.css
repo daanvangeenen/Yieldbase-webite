@@ -773,6 +773,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-point-text strong { font-weight: 600; }
 .hero-point-text .up { color: var(--green); }
 .hero-point-text .down { color: #c0392b; }
+.hero-point-text em { font-style: italic; font-weight: 600; }
+.hero-point-link {
+  color: var(--text-soft);
+  font-size: 12.5px;
+}
 
 @media (max-width: 1100px) {
   .hero-block { grid-template-columns: 1fr; gap: 20px; padding: 20px 22px; }
