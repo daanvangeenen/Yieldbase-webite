@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
   <script>
     // Early auth guard — runs before render to prevent flash
     (function() {
@@ -141,78 +141,47 @@
         </button>
       </section>
 
-      <!-- HERO ROW: greeting + KPI samenvatting (left)  +  4 aandachtspunten uit Analyses (right) -->
-      <section class="hero-row">
-        <!-- LEFT: Hallo Daan + korte beschrijving van de KPI's -->
-        <div class="hero-insight">
-          <div class="hero-insight-badge">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="#f5d6b2" stroke="#f5d6b2" stroke-width="0"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
+      <!-- HERO BLOCK: één wit blok.
+           Links: Hallo Daan + korte toelichting bij de KPI's.
+           Rechts: 4 aandachtspunten (omzet · besteding · retouren · online omzet),
+           weergegeven als icoon + korte tekst in een 2x2 raster. -->
+      <section class="hero-block">
+        <div class="hero-block-left">
+          <div class="hero-block-badge">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="#f5d6b2" stroke="#f5d6b2" stroke-width="0"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
           </div>
-          <h2 class="hero-greeting">Hallo Daan,</h2>
-          <p class="hero-kpi-summary" id="heroKpiSummary">
+          <h2 class="hero-block-greeting">Hallo Daan,</h2>
+          <p class="hero-block-text" id="heroKpiSummary">
             <!-- vervangen door app.js -->
           </p>
-          <p class="hero-closing" id="heroClosing">
-            Wil je meer weten over een specifiek onderdeel? Klik op een van de blokjes hieronder.
-          </p>
         </div>
 
-        <!-- RIGHT: 4 aandachtspunten uit de Analyses-tab.
-             Eén punt per analyse: omzet · marges · retouren · uitverkocht.
-             Severity: .high (rood), .medium (geel), .low (groen). -->
-        <div class="hero-attention">
-          <div class="hero-attention-badge">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          </div>
-          <h2 class="hero-attention-title">Aandachtspunten uit je analyses</h2>
-
-          <ul class="attention-grid">
-            <li class="attention-tile medium">
-              <span class="attention-tile-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
-              </span>
-              <div class="attention-tile-body">
-                <div class="attention-tile-title">Meer omzet mogelijk</div>
-                <p class="attention-tile-text">Nougatine-taart doet het in Ziekerstraat <strong>18% beter</strong> dan in Daalseweg — check schap-positie.</p>
-              </div>
-            </li>
-
-            <li class="attention-tile high">
-              <span class="attention-tile-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              </span>
-              <div class="attention-tile-body">
-                <div class="attention-tile-title">Marge onder druk</div>
-                <p class="attention-tile-text">Tompouce, slagroomtaart en eclair: marges dalen door <strong>+8% boterprijs</strong>.</p>
-              </div>
-            </li>
-
-            <li class="attention-tile medium">
-              <span class="attention-tile-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M4 9h11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H8"/></svg>
-              </span>
-              <div class="attention-tile-body">
-                <div class="attention-tile-title">Retouren stijgen</div>
-                <p class="attention-tile-text">Slagroomtaart 8p: <strong>€ 142 retour</strong> deze week — meestal 'niet opgehaald'.</p>
-              </div>
-            </li>
-
-            <li class="attention-tile high">
-              <span class="attention-tile-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-              </span>
-              <div class="attention-tile-body">
-                <div class="attention-tile-title">Te vroeg uitverkocht</div>
-                <p class="attention-tile-text">Croissant is al om <strong>10:30 op</strong> — extra productie kan omzet opleveren.</p>
-              </div>
-            </li>
-          </ul>
-
-          <a href="analyses.html" class="attention-cta">
-            Bekijk alle analyses
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-        </div>
+        <ul class="hero-block-points">
+          <li class="hero-point">
+            <span class="hero-point-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
+            </span>
+            <p class="hero-point-text">Je omzet is <strong class="up">6,8% hoger</strong> dan dezelfde week vorig jaar.</p>
+          </li>
+          <li class="hero-point">
+            <span class="hero-point-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M14 20c0-2.4 1.6-4 3.5-4S21 17.6 21 20"/></svg>
+            </span>
+            <p class="hero-point-text">De gemiddelde besteding per klant is <strong>gelijk gebleven</strong> t.o.v. vorig jaar.</p>
+          </li>
+          <li class="hero-point">
+            <span class="hero-point-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M4 9h11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H8"/></svg>
+            </span>
+            <p class="hero-point-text">Je retouren zijn <strong class="up">4,2% hoger</strong> dan vorig jaar.</p>
+          </li>
+          <li class="hero-point">
+            <span class="hero-point-icon">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M3 4h2l2 12h12l2-8H7"/></svg>
+            </span>
+            <p class="hero-point-text">Je online omzet is <strong class="up">12,3% hoger</strong> dan dezelfde week vorig jaar.</p>
+          </li>
+        </ul>
       </section>
 
       <!-- KPI CARDS -->
@@ -298,7 +267,7 @@
     </main>
   </div>
 
-  <script src="app.js?v=25"></script>
-  <script src="auth.js?v=25"></script>
+  <script src="app.js?v=26"></script>
+  <script src="auth.js?v=26"></script>
 </body>
 </html>
