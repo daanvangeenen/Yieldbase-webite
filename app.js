@@ -15,7 +15,7 @@ const CLOSING_DEFAULT = 'Wil je meer weten over een specifiek onderdeel? Klik op
 const STORES = {
   totaal: {
     name: 'Totaal',
-    summary: 'De totale omzet over alle winkels en de webshop is deze week <strong>€ 67.450</strong>. Dat is <strong class="up">6,8% hoger</strong> dan in dezelfde week vorig jaar. Je <strong>4.895 klanten</strong> besteden gemiddeld <strong>€ 13,78</strong> — stabiel t.o.v. vorig jaar. Retouren komen uit op <strong>€ 482</strong> (+4,2%).',
+    summary: 'De totale omzet over alle winkels en de webshop is deze week <strong>€ 67.450</strong>. Goed bezig, dit is <strong class="up">6,8% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:     { value: '€ 67.450', delta: '+6,8%', dir: 'up' },
