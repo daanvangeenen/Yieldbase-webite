@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=31" />
+  <link rel="stylesheet" href="styles.css?v=32" />
   <script>
     (function() {
       try {
@@ -85,13 +85,11 @@
         <div class="topbar-controls">
           <button class="date-picker">
             <span class="date-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span>
-            <span id="datePickerLabel">apr 2025</span>
+            <span id="datePickerLabel">22 mrt – 20 apr 2025</span>
             <span class="date-caret"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
           </button>
           <div class="period-toggle">
-            <button data-period="dag">Dag</button>
-            <button data-period="week">Week</button>
-            <button data-period="maand" class="active">Maand</button>
+            <button data-period="30d" class="active">Afgelopen 30 dagen</button>
             <button data-period="ytd">YTD</button>
           </div>
         </div>
@@ -135,10 +133,10 @@
     </main>
   </div>
 
-  <script src="auth.js?v=31"></script>
+  <script src="auth.js?v=32"></script>
   <script>
     let currentStore = 'totaal';
-    let currentPeriod = 'maand';
+    let currentPeriod = '30d';
 
     const STORE_LABELS = {
       totaal: 'totaal alle winkels',
@@ -150,19 +148,18 @@
     const STORE_RATIOS = {
       totaal: 1, ziekerstraat: 0.288, heyendaal: 0.239, lent: 0.191, daalseweg: 0.147,
     };
+    // Alleen 2 periodes op de analyse-pagina's: afgelopen 30 dagen of YTD.
     const PERIOD_LABELS = {
-      dag: '20 apr 2025',
-      week: '14 apr – 20 apr 2025',
-      maand: 'apr 2025',
-      ytd: '1 jan – 20 apr 2025',
+      '30d': '22 mrt – 20 apr 2025',
+      ytd:   '1 jan – 20 apr 2025',
     };
     const PERIOD_FOOTER = {
-      dag: 'Periode: 20 april 2025',
-      week: 'Periode: 14 – 20 april 2025',
-      maand: 'Periode: april 2025',
-      ytd: 'Periode: 1 januari – 20 april 2025',
+      '30d': 'Periode: afgelopen 30 dagen (22 mrt – 20 apr 2025)',
+      ytd:   'Periode: 1 januari – 20 april 2025',
     };
-    const PERIOD_SCALE = { dag: 0.04, week: 0.25, maand: 1, ytd: 3.7 };
+    // Schaal t.o.v. één referentie-week (€ 67.450).
+    // 30d ≈ 4,3 weken · YTD = 1 jan – 20 apr ≈ 15,5 weken.
+    const PERIOD_SCALE = { '30d': 4.3, ytd: 15.5 };
 
     // Totale weekomzet alle winkels = € 67.450 (zie CLAUDE.md).
     // Voor 'maand' wordt periodScale 1 gebruikt — alle getallen hieronder
@@ -207,7 +204,7 @@
       const storeRatio  = STORE_RATIOS[currentStore];
       const periodScale = PERIOD_SCALE[currentPeriod];
       const totaalOmzet = BASE_WEEKOMZET * storeRatio * periodScale;
-      const periodText  = { dag: 'deze dag', week: 'deze week', maand: 'deze maand', ytd: 'dit jaar' }[currentPeriod];
+      const periodText  = { '30d': 'in de afgelopen 30 dagen', ytd: 'dit jaar' }[currentPeriod];
 
       // Cumulative percentages opbouwen voor top 10
       let cum = 0;
@@ -312,7 +309,7 @@
           <div class="card-head">
             <div>
               <h2 class="card-title">'Dead stock' — kandidaten om te schrappen</h2>
-              <p class="card-sub">Verkochten &lt; 5× ${periodText} en samen &lt; 0,5% omzet · ${STORE_LABELS[currentStore]}</p>
+              <p class="card-sub">Verkochten &lt; 5× per maand en samen &lt; 0,5% omzet · ${STORE_LABELS[currentStore]}</p>
             </div>
             <span class="priority-badge priority-medium">${DEAD_STOCK_COUNT} producten totaal</span>
           </div>
@@ -327,7 +324,7 @@
             </thead>
             <tbody>
               ${DEAD_STOCK.map(p => {
-                const sold = Math.max(0, Math.round(p.sold * storeRatio * (periodScale / PERIOD_SCALE.maand)));
+                const sold = Math.max(0, Math.round(p.sold * storeRatio * (periodScale / PERIOD_SCALE['30d'])));
                 return `
                   <tr>
                     <td><strong>${p.name}</strong></td>
