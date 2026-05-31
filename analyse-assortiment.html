@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wanneer is mijn product uitverkocht? — Strik Patisserie</title>
+  <title>Analyse op mijn assortiment — Strik Patisserie</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=29" />
+  <link rel="stylesheet" href="styles.css?v=30" />
   <script>
     (function() {
       try {
@@ -76,10 +76,10 @@
         <div class="title-wrap">
           <a href="analyses.html" class="back-link">← Terug naar Analyses</a>
           <div class="page-title-row">
-            <h1 class="page-title">Wanneer is mijn product uitverkocht?</h1>
+            <h1 class="page-title">Analyse op mijn assortiment</h1>
             <span class="client-pill">Strik Patisserie</span>
           </div>
-          <p class="page-sub">Producten die regelmatig opraken voor sluitingstijd — kandidaten voor meer productie</p>
+          <p class="page-sub">Pareto 80/20 — welke producten dragen je omzet, en welke kosten alleen schapruimte?</p>
         </div>
 
         <div class="topbar-controls">
@@ -135,7 +135,7 @@
     </main>
   </div>
 
-  <script src="auth.js?v=29"></script>
+  <script src="auth.js?v=30"></script>
   <script>
     let currentStore = 'totaal';
     let currentPeriod = 'maand';
@@ -164,81 +164,176 @@
     };
     const PERIOD_SCALE = { dag: 0.04, week: 0.25, maand: 1, ytd: 3.7 };
 
-    const UITVERKOCHT = [
-      { name: 'Bruin desem',       cat: 'Brood',                timesOut: 12, avgTime: '11:30', dayPct: 41, advice: '+35% productie', priority: 'high' },
-      { name: 'Slagroomtaart 8p',  cat: 'Taart op bestelling',  timesOut: 14, avgTime: '12:45', dayPct: 52, advice: '+25% productie', priority: 'high' },
-      { name: 'Strikgebakje',      cat: 'Gebak',                timesOut: 18, avgTime: '14:20', dayPct: 67, advice: '+30% productie', priority: 'high' },
-      { name: 'Croissant',         cat: 'Koek & klein',         timesOut:  7, avgTime: '10:30', dayPct: 32, advice: '+40% productie', priority: 'high' },
-      { name: 'Worstenbroodje',    cat: 'Koek & klein',         timesOut: 10, avgTime: '13:15', dayPct: 57, advice: '+20% productie', priority: 'medium' },
-      { name: 'Appelflap',         cat: 'Koek & klein',         timesOut:  8, avgTime: '14:50', dayPct: 71, advice: '+15% productie', priority: 'medium' },
-      { name: 'Tompouce',          cat: 'Gebak',                timesOut: 11, avgTime: '15:40', dayPct: 79, advice: '+15% productie', priority: 'medium' },
-      { name: 'Eclair',            cat: 'Gebak',                timesOut:  9, avgTime: '16:00', dayPct: 82, advice: '+10% productie', priority: 'low' },
-      { name: 'Wit casino',        cat: 'Brood',                timesOut:  5, avgTime: '16:30', dayPct: 86, advice: '+5% productie',  priority: 'low' },
-      { name: 'Bonbondoos 9 st.',  cat: 'Overig',               timesOut:  6, avgTime: '17:00', dayPct: 91, advice: '+5% productie',  priority: 'low' },
+    // Totale weekomzet alle winkels = € 67.450 (zie CLAUDE.md).
+    // Voor 'maand' wordt periodScale 1 gebruikt — alle getallen hieronder
+    // zijn maand-niveau (€67.450 × 4 weken ≈ €269.800).
+    // Het Pareto-aandeel (omzet%) blijft stabiel ongeacht periode/winkel.
+    const TOTAL_ASSORTIMENT = 85;          // totaal aantal producten in assortiment
+    const TOP20_COUNT       = 17;          // 20% van 85 ≈ 17
+    const LONG_TAIL_COUNT   = 43;          // onderste 50%
+    const DEAD_STOCK_COUNT  = 12;          // < 5× verkocht per maand
+    const BASE_WEEKOMZET    = 67450;       // referentie totaal (week, alle winkels)
+
+    // Top 10 — naam, categorie, omzet-aandeel% (referentie totaal week)
+    const TOP10 = [
+      { name: 'Strikgebakje',      cat: 'Gebak',               sharePct: 14.1 },
+      { name: 'Slagroomtaart 8p',  cat: 'Taart op bestelling', sharePct: 10.7 },
+      { name: 'Bruin desem',       cat: 'Brood',               sharePct:  8.6 },
+      { name: 'Tompouce',          cat: 'Gebak',               sharePct:  7.0 },
+      { name: 'Croissant',         cat: 'Koek & klein',        sharePct:  5.8 },
+      { name: 'Appelflap',         cat: 'Koek & klein',        sharePct:  4.8 },
+      { name: 'Wit casino',        cat: 'Brood',               sharePct:  4.1 },
+      { name: 'Eclair',            cat: 'Gebak',               sharePct:  3.5 },
+      { name: 'Bonbondoos 9 st.',  cat: 'Overig',              sharePct:  3.0 },
+      { name: 'Worstenbroodje',    cat: 'Koek & klein',        sharePct:  2.6 },
     ];
 
+    // 'Dead stock'-kandidaten — bovenkant van de lange staart die je
+    // overweegt te schrappen. Verkoop = stuks deze maand bij totaal.
+    const DEAD_STOCK = [
+      { name: 'Vruchtenvlaai mini', cat: 'Gebak',        sold: 4, share: 0.10 },
+      { name: 'Krentenbol XL',      cat: 'Brood',        sold: 3, share: 0.08 },
+      { name: 'Kano-gebakje',       cat: 'Gebak',        sold: 4, share: 0.09 },
+      { name: 'Tijgerbrood half',   cat: 'Brood',        sold: 2, share: 0.05 },
+      { name: 'Saucijzenbroodje',   cat: 'Koek & klein', sold: 3, share: 0.06 },
+      { name: 'Bokkenpootje',       cat: 'Koek & klein', sold: 2, share: 0.04 },
+    ];
+
+    function fmtEuro(n) {
+      return '€ ' + Math.round(n).toLocaleString('nl-NL');
+    }
+
     function renderAnalysis() {
-      const storeRatio = STORE_RATIOS[currentStore];
+      const storeRatio  = STORE_RATIOS[currentStore];
       const periodScale = PERIOD_SCALE[currentPeriod];
-      const scaledProducts = UITVERKOCHT.map(p => ({
-        ...p,
-        timesOut: Math.max(1, Math.round(p.timesOut * storeRatio * periodScale)),
-      }));
-      const highCount = scaledProducts.filter(p => p.priority === 'high').length;
-      const periodText = { dag: 'deze dag', week: 'deze week', maand: 'deze maand', ytd: 'dit jaar' }[currentPeriod];
+      const totaalOmzet = BASE_WEEKOMZET * storeRatio * periodScale;
+      const periodText  = { dag: 'deze dag', week: 'deze week', maand: 'deze maand', ytd: 'dit jaar' }[currentPeriod];
+
+      // Cumulative percentages opbouwen voor top 10
+      let cum = 0;
+      const top10 = TOP10.map(p => {
+        cum += p.sharePct;
+        return { ...p, omzet: totaalOmzet * (p.sharePct / 100), cumPct: cum };
+      });
+      const top10CumPct = top10[9].cumPct;
 
       document.getElementById('analysisContent').innerHTML = `
         <section class="analysis-intro">
           <div class="analysis-intro-badge">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           </div>
           <div class="analysis-intro-text">
-            <h2 class="analysis-intro-title">Wanneer is mijn product uitverkocht?</h2>
+            <h2 class="analysis-intro-title">20% van je producten = 78% van je omzet</h2>
             <p class="analysis-intro-sub">
-              Deze 10 producten verkopen ${periodText} regelmatig uit voor sluitingstijd. <strong>${highCount} daarvan verdienen prioriteit</strong> —
-              ze raken op vóór de middag of zijn meermaals op rij uitverkocht. Overweeg meer te bakken.
+              Je voert <strong>${TOTAL_ASSORTIMENT} producten</strong>. ${periodText.charAt(0).toUpperCase() + periodText.slice(1)}
+              komt <strong>78%</strong> van de omzet uit slechts <strong>${TOP20_COUNT} producten</strong> — de klassieke Pareto-verdeling.
+              De onderkant van je assortiment (<strong>${LONG_TAIL_COUNT} producten</strong>) levert samen maar <strong>5%</strong> op.
             </p>
           </div>
         </section>
 
+        <!-- Pareto-segmenten in 3 staafjes -->
         <section class="card">
           <div class="card-head">
             <div>
-              <h2 class="card-title">Top 10 meest relevante producten</h2>
-              <p class="card-sub">Gerangschikt op urgentie · ${STORE_LABELS[currentStore]} · ${periodText}</p>
+              <h2 class="card-title">Pareto-verdeling van je assortiment</h2>
+              <p class="card-sub">${STORE_LABELS[currentStore]} · ${periodText} · totaal ${fmtEuro(totaalOmzet)}</p>
             </div>
           </div>
-          <table class="table uitverkocht-table">
+          <ul class="pareto-bars">
+            <li class="pareto-row">
+              <div class="pareto-row-head">
+                <span class="pareto-row-label"><strong>Top 17 producten</strong> · 20% van assortiment</span>
+                <span class="pareto-row-value">${fmtEuro(totaalOmzet * 0.78)} · 78%</span>
+              </div>
+              <div class="pareto-bar-track"><div class="pareto-bar-fill pareto-fill-top" style="width:78%"></div></div>
+            </li>
+            <li class="pareto-row">
+              <div class="pareto-row-head">
+                <span class="pareto-row-label"><strong>Midden 25 producten</strong> · 30% van assortiment</span>
+                <span class="pareto-row-value">${fmtEuro(totaalOmzet * 0.17)} · 17%</span>
+              </div>
+              <div class="pareto-bar-track"><div class="pareto-bar-fill pareto-fill-mid" style="width:17%"></div></div>
+            </li>
+            <li class="pareto-row">
+              <div class="pareto-row-head">
+                <span class="pareto-row-label"><strong>Onderkant 43 producten</strong> · 50% van assortiment</span>
+                <span class="pareto-row-value">${fmtEuro(totaalOmzet * 0.05)} · 5%</span>
+              </div>
+              <div class="pareto-bar-track"><div class="pareto-bar-fill pareto-fill-low" style="width:5%"></div></div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Top 10 met omzet + cumulatief % -->
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Top 10 omzet­dragers</h2>
+              <p class="card-sub">Samen goed voor ${top10CumPct.toFixed(0)}% van je omzet · ${STORE_LABELS[currentStore]} · ${periodText}</p>
+            </div>
+          </div>
+          <table class="table pareto-table">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Product</th>
                 <th>Categorie</th>
-                <th class="num">× uitverkocht</th>
-                <th class="num">Gem. tijd uitverkocht</th>
-                <th class="bar-col">Hoe vroeg op de dag?</th>
-                <th>Advies</th>
+                <th class="num">Omzet</th>
+                <th class="num">% omzet</th>
+                <th class="bar-col">Cumulatief %</th>
               </tr>
             </thead>
             <tbody>
-              ${scaledProducts.map((p, i) => {
-                const urgencyPct = 100 - p.dayPct;
-                const priorityClass = `priority-${p.priority}`;
-                const rankClass = i < 4 ? 'rank-top' : '';
+              ${top10.map((p, i) => {
+                const rankClass = i < 5 ? 'rank-top' : '';
                 return `
                   <tr>
                     <td class="${rankClass}">${i + 1}</td>
                     <td><strong>${p.name}</strong></td>
                     <td>${p.cat}</td>
-                    <td class="num">${p.timesOut}×</td>
-                    <td class="num">${p.avgTime}</td>
+                    <td class="num">${fmtEuro(p.omzet)}</td>
+                    <td class="num">${p.sharePct.toFixed(1)}%</td>
                     <td class="bar-col">
-                      <div class="urgency-bar-track">
-                        <div class="urgency-bar-fill ${priorityClass}" style="width:${urgencyPct}%"></div>
+                      <div class="hour-bar-track">
+                        <div class="hour-bar-fill" style="width:${p.cumPct}%"></div>
                       </div>
-                      <div class="urgency-meta">${p.dayPct}% van dag verstreken</div>
+                      <div class="urgency-meta">${p.cumPct.toFixed(0)}% van totale omzet</div>
                     </td>
-                    <td><span class="priority-badge ${priorityClass}">${p.advice}</span></td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Long tail / dead stock -->
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">'Dead stock' — kandidaten om te schrappen</h2>
+              <p class="card-sub">Verkochten &lt; 5× ${periodText} en samen &lt; 0,5% omzet · ${STORE_LABELS[currentStore]}</p>
+            </div>
+            <span class="priority-badge priority-medium">${DEAD_STOCK_COUNT} producten totaal</span>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Categorie</th>
+                <th class="num">Verkocht ${periodText}</th>
+                <th class="num">% omzet</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${DEAD_STOCK.map(p => {
+                const sold = Math.max(0, Math.round(p.sold * storeRatio * (periodScale / PERIOD_SCALE.maand)));
+                return `
+                  <tr>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${p.cat}</td>
+                    <td class="num">${sold}×</td>
+                    <td class="num">${p.share.toFixed(2)}%</td>
                   </tr>
                 `;
               }).join('')}
@@ -249,9 +344,10 @@
         <section class="analysis-tip">
           <span class="analysis-tip-icon">💡</span>
           <div>
-            <strong>Lezen van deze tabel:</strong> hoe verder de balk naar rechts staat,
-            hoe vroeger op de dag het product uitverkocht raakt — en hoe groter de gemiste omzet.
-            Producten met een rode balk verdienen direct aandacht.
+            <strong>Wat hiermee te doen?</strong> Geef de top 10 een ruime, vaste plek
+            in de vitrine. Test of je 5–10 producten uit de onderkant kunt schrappen
+            of vervangen door iets nieuws — het levert nauwelijks omzet op, maar wel
+            inkoop-, productie- en derving-kosten.
           </div>
         </section>
       `;
