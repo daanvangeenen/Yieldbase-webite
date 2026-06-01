@@ -27,7 +27,7 @@ const STORES = {
 
   ziekerstraat: {
     name: 'Ziekerstraat',
-    summary: 'Ziekerstraat draaide deze week <strong>€ 19.420</strong> omzet — <strong class="up">7,4% hoger</strong> dan vorig jaar en de hoogste van al je winkels. <strong>1.410 klanten</strong> kwamen langs, met een gemiddelde besteding van <strong>€ 13,77</strong>. Retouren stegen licht naar <strong>€ 138</strong> (+3,8%).',
+    summary: 'De omzet van Ziekerstraat is deze week <strong>€ 19.420</strong>. Goed bezig, dit is <strong class="up">7,4% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:     { value: '€ 19.420', delta: '+7,4%', dir: 'up' },
@@ -39,7 +39,7 @@ const STORES = {
 
   heyendaal: {
     name: 'Heyendaal',
-    summary: 'Heyendaal draaide <strong>€ 16.110</strong> omzet (<strong class="up">+4,1%</strong>) met <strong>1.200 klanten</strong> (+3,5%) en een gemiddelde besteding van <strong>€ 13,43</strong>. Let op: <strong>retouren stijgen sneller</strong> dan omzet — <strong class="up">+5,2%</strong> naar € 115.',
+    summary: 'De omzet van Heyendaal is deze week <strong>€ 16.110</strong>. Goed bezig, dit is <strong class="up">4,1% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:     { value: '€ 16.110', delta: '+4,1%', dir: 'up' },
@@ -51,7 +51,7 @@ const STORES = {
 
   lent: {
     name: 'Lent',
-    summary: 'Lent is de grootste stijger: <strong>€ 12.860</strong> omzet (<strong class="up">+9,2%</strong>) — de sterkste groei van al je winkels. <strong>925 klanten</strong> kwamen langs (+6,8%), met de hoogste gemiddelde besteding (<strong>€ 13,90</strong>). Retouren bleven beheerst op <strong>€ 92</strong>.',
+    summary: 'De omzet van Lent is deze week <strong>€ 12.860</strong>. Goed bezig, dit is <strong class="up">9,2% hoger</strong> dan in dezelfde week vorig jaar — de sterkste groei van al je winkels.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:     { value: '€ 12.860', delta: '+9,2%', dir: 'up' },
@@ -63,7 +63,7 @@ const STORES = {
 
   daalseweg: {
     name: 'Daalseweg',
-    summary: 'Daalseweg had een wat mindere week: <strong>€ 9.850</strong> omzet (<strong class="down">−1,3%</strong>) en <strong>720 klanten</strong> (−1,0%). De gemiddelde besteding zakte naar <strong>€ 13,68</strong>. Retouren stegen <strong class="up">+2,9%</strong> naar <strong>€ 71</strong>.',
+    summary: 'De omzet van Daalseweg is deze week <strong>€ 9.850</strong>. Dit is <strong class="down">1,3% lager</strong> dan in dezelfde week vorig jaar — even op letten.',
     closing: 'Klik op een van de blokjes hieronder voor meer details over wat hier speelt.',
     kpis: {
       omzet:     { value: '€ 9.850',  delta: '-1,3%', dir: 'down' },
