@@ -693,21 +693,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-kpi-summary .up { color: var(--green); }
 .hero-kpi-summary .down { color: #c0392b; }
 
-/* ===== Nieuw hero-blok: één licht kaartje boven de KPI's.
-   Links: greeting + korte toelichting. Rechts: 4 aandachtspunten in 2x2. ===== */
+/* ===== Hero-blok: één wit kaartje boven de KPI's, optisch opgeknipt in twee helften.
+   Links: greeting + korte toelichting bij de KPI's.
+   Rechts: carrousel met aandachtspunten — auto-advance, klikbare bolletjes. ===== */
 .hero-block {
   background: #fff;
   border: 1px solid transparent;
   border-radius: 20px;
-  padding: 22px 28px;
+  padding: 24px 28px;
   display: grid;
   grid-template-columns: 1.05fr 1.45fr;
-  gap: 36px;
+  gap: 32px;
   align-items: center;
   box-shadow: 0 1px 2px rgba(20, 24, 27, 0.04);
 }
 
-.hero-block-left { position: relative; padding-left: 0; }
+/* Subtiele scheidslijn tussen de twee helften — nauwelijks zichtbaar */
+.hero-block-left {
+  position: relative;
+  padding-right: 32px;
+  border-right: 1px solid var(--line-soft);
+}
 .hero-block-badge {
   width: 32px; height: 32px;
   border-radius: 50%;
@@ -736,27 +742,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-block-text .up { color: var(--green); }
 .hero-block-text .down { color: #c0392b; }
 
-.hero-block-points {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px 28px;
-  align-content: center;
-}
-.hero-point {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  font-size: 13.5px;
-  line-height: 1.45;
-  color: var(--text);
-}
 .hero-point-icon {
-  flex: 0 0 38px;
-  width: 38px;
-  height: 38px;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: #fbe6d4;
   color: var(--wine);
@@ -764,27 +753,69 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   align-items: center;
   justify-content: center;
 }
-.hero-point-text {
+
+/* --- Carrousel rechterhelft --- */
+.hero-block-slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 110px;
+  overflow: hidden;
+  padding-left: 8px;
+}
+.hero-slides-track {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.hero-slide {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 4px 4px;
+  min-width: 0;
+}
+.hero-slide-text {
   margin: 0;
-  font-size: 13.5px;
-  line-height: 1.45;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--text);
 }
-.hero-point-text strong { font-weight: 600; }
-.hero-point-text .up { color: var(--green); }
-.hero-point-text .down { color: #c0392b; }
-.hero-point-text em { font-style: italic; font-weight: 600; }
-.hero-point-link {
-  color: var(--text-soft);
-  font-size: 12.5px;
+.hero-slide-text strong { font-weight: 600; }
+.hero-slide-text .up   { color: var(--green); }
+.hero-slide-text .down { color: #c0392b; }
+
+/* Bolletjes onder de carrousel */
+.hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(20, 24, 27, 0.18);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: background .2s ease, width .25s ease;
+}
+.hero-dot:hover { background: rgba(20, 24, 27, 0.35); }
+.hero-dot.active {
+  background: var(--wine);
+  width: 22px;
+  border-radius: 999px;
 }
 
 @media (max-width: 1100px) {
   .hero-block { grid-template-columns: 1fr; gap: 20px; padding: 20px 22px; }
-  .hero-block-points { grid-template-columns: 1fr 1fr; gap: 14px 20px; }
-}
-@media (max-width: 700px) {
-  .hero-block-points { grid-template-columns: 1fr; }
+  .hero-block-left { border-right: 0; border-bottom: 1px solid var(--line-soft); padding-right: 0; padding-bottom: 16px; }
+  .hero-block-slider { padding-left: 0; }
 }
 
 /* 2x2 grid van aandachtspunten in de donkere kaart (rechts).

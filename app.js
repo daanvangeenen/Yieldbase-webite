@@ -119,4 +119,44 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => renderStore(tab.dataset.store));
   });
   renderStore('totaal');
+  initHeroSlider();
 });
+
+// ===== Hero-slider: carrousel met aandachtspunten in de rechterhelft =====
+// Auto-advance elke 5 seconden, pauzeert bij hover, klikbare bolletjes.
+function initHeroSlider() {
+  const track    = document.getElementById('heroSlidesTrack');
+  const dotsWrap = document.getElementById('heroDots');
+  const wrapper  = document.getElementById('heroSlider');
+  if (!track || !dotsWrap) return;
+
+  const slides = track.children;
+  const dots   = dotsWrap.querySelectorAll('.hero-dot');
+  const total  = slides.length;
+  if (total === 0) return;
+
+  let current = 0;
+  let timer   = null;
+  const INTERVAL = 5000;
+
+  function go(i) {
+    current = (i + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+  }
+  function next()  { go(current + 1); }
+  function start() { stop(); timer = setInterval(next, INTERVAL); }
+  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+  dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => { go(idx); start(); });
+  });
+
+  // Pauzeer bij hover zodat de bakker rustig kan lezen
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', stop);
+    wrapper.addEventListener('mouseleave', start);
+  }
+
+  start();
+}
