@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=37" />
+  <link rel="stylesheet" href="styles.css?v=38" />
   <script>
     (function() {
       try {
@@ -19,10 +19,10 @@
     })();
   </script>
 </head>
-<body class="bakkerij-body">
-  <div class="bakkerij-shell">
-    <!-- Topbar (zelfde stijl als startpagina) -->
-    <header class="choose-topbar">
+<body>
+  <div class="app">
+    <!-- SIDEBAR — zelfde layout als het management-dashboard, alleen 2 items -->
+    <aside class="sidebar">
       <div class="brand">
         <div class="brand-logo">
           <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
@@ -34,38 +34,55 @@
         <div class="brand-name">YIELDBASE</div>
       </div>
 
+      <nav class="nav">
+        <a href="#recepten" class="nav-item active" data-section="recepten">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>
+          Recepten
+        </a>
+        <a href="#vragen" class="nav-item" data-section="vragen">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          Vragen
+        </a>
+      </nav>
+
       <div class="user-menu" id="userMenu">
         <div class="user">
           <div class="user-avatar">DV</div>
           <div class="user-name">Daan</div>
-          <span class="user-caret"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+          <span class="user-caret">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
         </div>
         <div class="user-dropdown">
           <button class="logout-btn">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17l5-5-5-5"/><path d="M20 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
             Uitloggen
           </button>
+          <a href="start.html" class="logout-btn" style="text-decoration:none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M4 9h16"/></svg>
+            Wissel weergave
+          </a>
         </div>
       </div>
-    </header>
+    </aside>
 
-    <main class="bakkerij-main">
-      <div class="bakkerij-pagehead">
-        <div>
-          <a href="start.html" class="back-link">← Wissel weergave</a>
+    <!-- MAIN -->
+    <main class="main bakkerij-main">
+      <header class="topbar">
+        <div class="title-wrap">
           <div class="page-title-row">
             <h1 class="page-title">Bakkerij</h1>
             <span class="client-pill">Strik Patisserie</span>
           </div>
           <p class="page-sub">Recepten van het assortiment, en een eigen AI-assistent voor alle vragen over de bakkerij.</p>
         </div>
-      </div>
+      </header>
 
       <!-- Split: links recepten, rechts AI -->
       <div class="bakkerij-split">
 
         <!-- ===== LINKS: recepten ===== -->
-        <section class="bakkerij-recipes-panel">
+        <section class="bakkerij-recipes-panel" id="recepten">
           <div class="bakkerij-panel-head">
             <div>
               <h2 class="bakkerij-panel-title">Recepten — Gebak</h2>
@@ -83,7 +100,7 @@
         </section>
 
         <!-- ===== RECHTS: AI-assistent ===== -->
-        <section class="bakkerij-ai-panel">
+        <section class="bakkerij-ai-panel" id="vragen">
           <div class="bakkerij-ai-head">
             <div class="bakkerij-ai-badge">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
@@ -133,7 +150,7 @@
     <div class="recipe-modal-card" id="recipeModalCard"></div>
   </div>
 
-  <script src="auth.js?v=37"></script>
+  <script src="auth.js?v=38"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
     const GEBAK = [
@@ -407,6 +424,18 @@
 
     document.querySelectorAll('#bakkerijSuggestions .bakkerij-chip').forEach(chip => {
       chip.addEventListener('click', () => handleAsk(chip.textContent));
+    });
+
+    // Sidebar-nav: highlight + scroll naar de juiste sectie
+    document.querySelectorAll('.nav-item[data-section]').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.getElementById(link.dataset.section);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document.querySelectorAll('.nav-item[data-section]').forEach(l => l.classList.toggle('active', l === link));
+        }
+      });
     });
   </script>
 </body>

@@ -2120,28 +2120,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .choose-card:hover .choose-card-cta { gap: 12px; }
 
 /* ===== Bakkerij-pagina (split: recepten links, AI rechts) ===== */
-.bakkerij-body {
-  margin: 0;
-  background: var(--cream);
-  min-height: 100vh;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  color: var(--text);
-}
-.bakkerij-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.bakkerij-main {
-  flex: 1;
-  padding: 8px 36px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.bakkerij-pagehead .page-title-row { margin-top: 4px; }
-.bakkerij-pagehead .back-link { display: inline-block; margin-bottom: 6px; }
-
+.bakkerij-main { gap: 18px; }
 .bakkerij-split {
   flex: 1;
   display: grid;
