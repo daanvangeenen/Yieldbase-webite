@@ -283,15 +283,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--cream);
 }
 
-/* ===== SIDEBAR (cream, blends with body) ===== */
+/* ===== SIDEBAR (cream, blends with body) =====
+   Sticky zodat brand bovenin én Daan onderin altijd in beeld blijven,
+   ongeacht hoever je in de main-kolom scrollt. */
 .sidebar {
   background: var(--cream);
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
   padding: 22px 14px 16px;
-  position: relative;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  overflow: hidden;
 }
+.sidebar .nav { overflow-y: auto; }
 
 .brand {
   display: flex;
@@ -2147,45 +2154,67 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* --- Floating AI-knop rechtsonder (FAB) --- */
 .chat-fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 26px;
+  right: 26px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   background: var(--wine);
   color: #fff;
   border: 0;
-  padding: 14px 22px 14px 18px;
+  padding: 14px 24px 14px 16px;
   border-radius: 999px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 10px 28px rgba(20, 24, 27, 0.28);
+  text-align: left;
+  box-shadow: 0 14px 32px rgba(20, 24, 27, 0.32);
   z-index: 200;
   transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  animation: chatFabBounce 2.6s 1s ease-in-out 3;
 }
-.chat-fab:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(20, 24, 27, 0.36); }
+.chat-fab:hover { transform: translateY(-3px); box-shadow: 0 18px 42px rgba(20, 24, 27, 0.40); }
 .chat-fab.hidden { opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.9); }
 .chat-fab-icon {
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: var(--accent);
   color: var(--text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+.chat-fab-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.chat-fab-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+.chat-fab-sub {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.78);
+  margin-top: 1px;
 }
 .chat-fab-dot {
   position: absolute;
   top: 10px;
   right: 14px;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #34d399;
   border: 2px solid var(--wine);
   animation: chatFabPulse 1.8s infinite ease-in-out;
+}
+@keyframes chatFabBounce {
+  0%, 100% { transform: translateY(0); }
+  20%      { transform: translateY(-6px); }
+  40%      { transform: translateY(0); }
 }
 @keyframes chatFabPulse {
   0%, 100% { transform: scale(1); opacity: 1; }
@@ -2409,8 +2438,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (max-width: 700px) {
   .bakkerij-main { padding: 14px 18px 20px; }
   .bakkerij-toolbar .recipe-search { min-width: 0; flex: 1; }
-  .chat-fab-label { display: none; }
-  .chat-fab { padding: 14px; }
+  .chat-fab-text { display: none; }
+  .chat-fab { padding: 12px; gap: 0; }
 }
 
 @media (max-width: 800px) {
