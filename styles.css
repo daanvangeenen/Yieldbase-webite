@@ -2119,41 +2119,305 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .choose-card:hover .choose-card-cta { gap: 12px; }
 
-/* Bakkerij placeholder content */
-.bakkerij-placeholder {
-  background: #fff;
-  border-radius: 24px;
-  padding: 40px 36px;
-  max-width: 560px;
-  text-align: center;
+/* ===== Bakkerij-pagina (split: recepten links, AI rechts) ===== */
+.bakkerij-body {
+  margin: 0;
+  background: var(--cream);
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+}
+.bakkerij-shell {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+.bakkerij-main {
+  flex: 1;
+  padding: 8px 36px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.bakkerij-pagehead .page-title-row { margin-top: 4px; }
+.bakkerij-pagehead .back-link { display: inline-block; margin-bottom: 6px; }
+
+.bakkerij-split {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 18px;
+  min-height: 0;
+}
+
+/* --- Recepten-paneel (links) --- */
+.bakkerij-recipes-panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 1px 2px rgba(20, 24, 27, 0.04);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.bakkerij-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.bakkerij-panel-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 2px;
+  letter-spacing: -0.3px;
+}
+.bakkerij-panel-sub {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin: 0;
+}
+.bakkerij-recipe-search { min-width: 220px; box-shadow: none; border: 1px solid var(--line); }
+
+.bakkerij-recipe-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  padding-right: 4px;
+  max-height: 70vh;
+}
+.bakkerij-recipe-row {
+  display: flex;
   align-items: center;
   gap: 14px;
-  box-shadow: 0 2px 8px rgba(20, 24, 27, 0.05);
+  width: 100%;
+  background: var(--cream-soft);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: 12px 14px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  color: var(--text);
+  transition: background .15s ease, border-color .15s ease, transform .12s ease;
 }
-.bakkerij-placeholder-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+.bakkerij-recipe-row:hover {
+  background: var(--cream-light);
+  border-color: var(--wine-border);
+  transform: translateX(2px);
+}
+.bakkerij-recipe-icon {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: var(--accent);
   color: var(--text);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.bakkerij-placeholder-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 24px;
+.bakkerij-recipe-info { flex: 1; min-width: 0; }
+.bakkerij-recipe-name {
+  font-size: 14.5px;
   font-weight: 600;
-  margin: 0;
-  letter-spacing: -0.4px;
+  color: var(--text);
+  margin-bottom: 2px;
+  line-height: 1.25;
 }
-.bakkerij-placeholder-text {
-  font-size: 14px;
+.bakkerij-recipe-desc {
+  font-size: 12.5px;
   color: var(--text-soft);
-  line-height: 1.55;
-  margin: 0 0 8px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.bakkerij-recipe-meta {
+  font-size: 11px;
+  color: var(--text-soft);
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.bakkerij-recipe-arrow {
+  color: var(--text-soft);
+  flex: 0 0 auto;
+}
+
+/* --- AI-paneel (rechts) --- */
+.bakkerij-ai-panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 1px 2px rgba(20, 24, 27, 0.04);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 14px;
+}
+.bakkerij-ai-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.bakkerij-ai-badge {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--wine);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bakkerij-ai-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 2px;
+  letter-spacing: -0.3px;
+}
+.bakkerij-ai-sub {
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.bakkerij-chat {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 6px 4px 6px 0;
+  min-height: 200px;
+  max-height: 60vh;
+}
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  max-width: 88%;
+}
+.chat-msg.ai { align-self: flex-start; }
+.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-avatar {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-avatar.ai   { background: var(--wine); color: var(--accent); }
+.chat-avatar.user { background: var(--accent); color: var(--text); }
+.chat-bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.chat-bubble.ai   { background: var(--cream-light); color: var(--text); border-top-left-radius: 4px; }
+.chat-bubble.user { background: var(--wine); color: #fff; border-top-right-radius: 4px; }
+.chat-bubble strong { font-weight: 600; }
+.chat-bubble.ai strong { color: var(--text); }
+
+.chat-msg.typing .chat-bubble {
+  display: inline-flex;
+  gap: 4px;
+  padding: 12px 16px;
+}
+.chat-msg.typing .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-soft);
+  animation: chatDot 1.2s infinite ease-in-out;
+}
+.chat-msg.typing .dot:nth-child(2) { animation-delay: .15s; }
+.chat-msg.typing .dot:nth-child(3) { animation-delay: .30s; }
+@keyframes chatDot {
+  0%, 60%, 100% { opacity: .25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-2px); }
+}
+
+.bakkerij-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bakkerij-chip {
+  background: var(--cream-light);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+  text-align: left;
+}
+.bakkerij-chip:hover { background: var(--accent-soft); border-color: var(--wine-border); }
+
+.bakkerij-input {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: var(--cream-soft);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 6px 6px 6px 14px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.bakkerij-input:focus-within { border-color: var(--wine); box-shadow: 0 0 0 3px rgba(20, 24, 27, 0.06); }
+.bakkerij-input input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  padding: 8px 0;
+}
+.bakkerij-input input::placeholder { color: var(--text-soft); }
+.bakkerij-send {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--wine);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  cursor: pointer;
+  transition: background .15s ease, transform .1s ease;
+}
+.bakkerij-send:hover { background: var(--wine-deep); transform: translateX(1px); }
+
+@media (max-width: 1100px) {
+  .bakkerij-split { grid-template-columns: 1fr; }
+  .bakkerij-recipe-list { max-height: 50vh; }
+  .bakkerij-chat { max-height: 50vh; }
+}
+@media (max-width: 700px) {
+  .bakkerij-main { padding: 8px 16px 20px; }
+  .bakkerij-panel-head { flex-direction: column; }
+  .bakkerij-recipe-search { min-width: 0; width: 100%; }
 }
 
 @media (max-width: 800px) {

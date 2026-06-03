@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=36" />
+  <link rel="stylesheet" href="styles.css?v=37" />
   <script>
     (function() {
       try {
@@ -19,8 +19,9 @@
     })();
   </script>
 </head>
-<body class="choose-body">
-  <div class="choose-shell">
+<body class="bakkerij-body">
+  <div class="bakkerij-shell">
+    <!-- Topbar (zelfde stijl als startpagina) -->
     <header class="choose-topbar">
       <div class="brand">
         <div class="brand-logo">
@@ -48,33 +49,365 @@
       </div>
     </header>
 
-    <main class="choose-main">
-      <a href="start.html" class="back-link">← Terug naar startpagina</a>
-      <div class="choose-intro">
-        <span class="client-pill">Strik Patisserie · Bakkerij</span>
-        <h1 class="choose-greeting">Bakkerij-omgeving</h1>
-        <p class="choose-sub">
-          Hier komt de werkplek van de bakkers: <strong>productieplanning</strong>,
-          <strong>bestellingen</strong>, <strong>recepten</strong> en <strong>voorraad</strong>.
-          We bouwen deze pagina in de volgende stap samen verder uit.
-        </p>
+    <main class="bakkerij-main">
+      <div class="bakkerij-pagehead">
+        <div>
+          <a href="start.html" class="back-link">← Wissel weergave</a>
+          <div class="page-title-row">
+            <h1 class="page-title">Bakkerij</h1>
+            <span class="client-pill">Strik Patisserie</span>
+          </div>
+          <p class="page-sub">Recepten van het assortiment, en een eigen AI-assistent voor alle vragen over de bakkerij.</p>
+        </div>
       </div>
 
-      <div class="bakkerij-placeholder">
-        <div class="bakkerij-placeholder-icon">
-          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-3 2-5 5-5h6c3 0 5 2 5 5v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M8 10v2M12 10v2M16 10v2"/></svg>
-        </div>
-        <h2 class="bakkerij-placeholder-title">In aanbouw</h2>
-        <p class="bakkerij-placeholder-text">
-          De bakkerij-weergave is nog niet vormgegeven. Vertel me welke onderdelen
-          je hier wilt zien — denk aan: productie van vandaag, openstaande bestellingen,
-          recepten van de hardlopers, of een planning per shift.
-        </p>
-        <a href="start.html" class="btn-primary">← Terug naar startpagina</a>
+      <!-- Split: links recepten, rechts AI -->
+      <div class="bakkerij-split">
+
+        <!-- ===== LINKS: recepten ===== -->
+        <section class="bakkerij-recipes-panel">
+          <div class="bakkerij-panel-head">
+            <div>
+              <h2 class="bakkerij-panel-title">Recepten — Gebak</h2>
+              <p class="bakkerij-panel-sub">Klik op een product voor het volledige recept.</p>
+            </div>
+            <div class="recipe-search bakkerij-recipe-search">
+              <span class="recipe-search-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" id="bakkerijSearch" placeholder="Zoek op product…" />
+            </div>
+          </div>
+
+          <div class="bakkerij-recipe-list" id="bakkerijRecipeList"></div>
+        </section>
+
+        <!-- ===== RECHTS: AI-assistent ===== -->
+        <section class="bakkerij-ai-panel">
+          <div class="bakkerij-ai-head">
+            <div class="bakkerij-ai-badge">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
+            </div>
+            <div>
+              <h2 class="bakkerij-ai-title">Bakkerij-assistent</h2>
+              <p class="bakkerij-ai-sub">Stel vragen over recepten, productie, houdbaarheid en proces. Antwoord in seconden.</p>
+            </div>
+          </div>
+
+          <div class="bakkerij-chat" id="bakkerijChat">
+            <!-- Welkomstbericht van de assistent -->
+            <div class="chat-msg ai">
+              <span class="chat-avatar ai">AI</span>
+              <div class="chat-bubble ai">
+                Hoi Daan! Ik help je met alles rond de bakkerij —
+                van recept-aanpassingen tot houdbaarheid, ingrediënt-vervangers
+                en effect van een prijsstijging. Wat wil je weten?
+              </div>
+            </div>
+          </div>
+
+          <!-- Snel-suggesties (klikbare chips) -->
+          <div class="bakkerij-suggestions" id="bakkerijSuggestions">
+            <button class="bakkerij-chip" type="button">Hoe pas ik mijn slagroomtaart-recept aan voor 12 personen?</button>
+            <button class="bakkerij-chip" type="button">Wat is de impact van +8% boterprijs op de tompouce?</button>
+            <button class="bakkerij-chip" type="button">Hoe lang is een eclair met banketbakkersroom houdbaar?</button>
+            <button class="bakkerij-chip" type="button">Welk ingrediënt kan ik vervangen als amandelspijs op is?</button>
+          </div>
+
+          <!-- Invoerveld -->
+          <form class="bakkerij-input" id="bakkerijForm" autocomplete="off">
+            <input type="text" id="bakkerijInput" placeholder="Stel je vraag aan de assistent…" />
+            <button type="submit" class="bakkerij-send" aria-label="Verstuur">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </section>
+
       </div>
     </main>
   </div>
 
-  <script src="auth.js?v=36"></script>
+  <!-- Modal: recept-detail (zelfde stijl als op de Recepturen-pagina) -->
+  <div class="recipe-modal" id="recipeModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="recipe-modal-backdrop" data-close></div>
+    <div class="recipe-modal-card" id="recipeModalCard"></div>
+  </div>
+
+  <script src="auth.js?v=37"></script>
+  <script>
+    // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
+    const GEBAK = [
+      {
+        name: 'Strikgebakje', desc: 'Hét signature gebakje — bladerdeeg, banketbakkersroom en amandelspijs.',
+        time: '45 min', yield: '20 stuks', diff: 'Gemiddeld',
+        ingredients: ['400 g bladerdeeg', '200 g banketbakkersroom', '150 g amandelspijs', '100 g poedersuiker', '2 eieren'],
+        steps: ['Oven voor op 200 °C.', 'Bladerdeeg uitrollen tot 3 mm, rondjes uitsteken.', 'Vullen met room en spijs, vouw tot strikvorm.', 'Bestrijken met eigeel, 18–20 min bakken.', 'Bestrooi met poedersuiker.'],
+      },
+      {
+        name: 'Tompouce', desc: 'Klassiek — twee plakken bladerdeeg met dikke laag banketbakkersroom en roze of gele fondant.',
+        time: '60 min', yield: '16 stuks', diff: 'Gemiddeld',
+        ingredients: ['500 g bladerdeeg', '600 ml banketbakkersroom', '300 g fondant'],
+        steps: ['Bladerdeeg blind bakken op 180 °C, 25 min.', 'Plat houden tussen twee bakplaten.', 'Fondant aanbrengen op bovenste plak.', 'Onderste plak vullen met room, stapelen.', 'Snijden in rechthoeken van 5 × 8 cm.'],
+      },
+      {
+        name: 'Slagroomgebakje', desc: 'Lichte biscuit met verse slagroom en seizoensfruit.',
+        time: '50 min', yield: '12 stuks', diff: 'Eenvoudig',
+        ingredients: ['400 g biscuitbodem', '500 ml verse slagroom', '50 g suiker', '200 g vers fruit'],
+        steps: ['Biscuit in rondjes uitsteken.', 'Slagroom kloppen met suiker.', 'Spuiten op biscuit, garneren met fruit.', 'Minimaal 1 uur koelen.'],
+      },
+      {
+        name: 'Mokkagebakje', desc: 'Mokkabotercrème op luchtige biscuitbodem, afgewerkt met chocoladekrullen.',
+        time: '70 min', yield: '12 stuks', diff: 'Gemiddeld',
+        ingredients: ['300 g biscuit', '400 g botercrème', '4 tl oploskoffie', '100 g chocoladekrullen'],
+        steps: ['Botercrème mengen met sterke koffie.', 'Biscuit dun bestrijken, opstapelen in 3 lagen.', 'Snijd in vierkanten.', 'Afwerken met chocoladekrullen.'],
+      },
+      {
+        name: 'Eclair', desc: 'Soezendeeg-staafjes gevuld met banketbakkersroom en gedoopt in chocolade.',
+        time: '70 min', yield: '20 stuks', diff: 'Gemiddeld',
+        ingredients: ['250 ml water', '100 g boter', '150 g bloem', '4 eieren', '500 ml banketbakkersroom', '200 g chocoladefondant'],
+        steps: ['Soezendeeg maken: water + boter koken, bloem erbij, eieren toevoegen.', 'Staafjes van 10 cm spuiten.', '25 min bakken op 200 °C.', 'Vullen met room via opening onder.', 'Bovenkant dopen in chocolade.'],
+      },
+      {
+        name: 'Bavarois — framboos', desc: 'Luchtige Beierse room met frambozenpuree en biscuitbodem.',
+        time: '90 min + koeling', yield: '10 stuks', diff: 'Moeilijk',
+        ingredients: ['250 g frambozen', '6 blaadjes gelatine', '500 ml slagroom', '100 g suiker', '200 g biscuit'],
+        steps: ['Frambozen pureren en zeven.', 'Gelatine weken, smelten in puree.', 'Slagroom kloppen, voorzichtig spatelen door puree.', 'Mengen in vormen, bodem afdekken met biscuit.', 'Minimaal 4 uur koelen.'],
+      },
+      {
+        name: 'Saksisch gebak', desc: 'Krokante bodem, banketbakkersroom en gekarameliseerde amandelen.',
+        time: '60 min', yield: '14 stuks', diff: 'Gemiddeld',
+        ingredients: ['300 g zoet kruimeldeeg', '400 g banketbakkersroom', '150 g amandelschilfers', '100 g suiker'],
+        steps: ['Kruimeldeeg blind bakken in rondjes.', 'Amandel-karamel maken en laten harden.', 'Bestrooi room royaal met amandelschilfers.', 'Werk af met geslagen amandel-karamel.'],
+      },
+      {
+        name: 'Petitfours assortiment', desc: 'Mix van mini-gebakjes met fondant-glazuur in verschillende kleuren.',
+        time: '120 min', yield: '24 stuks', diff: 'Moeilijk',
+        ingredients: ['400 g biscuit', '300 g marsepein', '500 g fondant in 3 kleuren', '200 g botercrème', 'decoratie'],
+        steps: ['Biscuit in vierkanten van 3 × 3 cm.', 'Dun bestrijken met botercrème.', 'Marsepein uitrollen en bekleden.', 'Doop in vloeibare fondant.', 'Decoratie aanbrengen.'],
+      },
+      {
+        name: 'Roomhoorntje', desc: 'Krokant bladerdeeg-hoorntje gevuld met luchtige slagroom.',
+        time: '40 min', yield: '16 stuks', diff: 'Eenvoudig',
+        ingredients: ['300 g bladerdeeg', '500 ml verse slagroom', '50 g suiker', 'poedersuiker'],
+        steps: ['Bladerdeeg in repen snijden, om hoorntjes-vormen draaien.', 'Bakken op 200 °C, 12 min.', 'Slagroom kloppen, in hoorntje spuiten.', 'Bestrooien met poedersuiker.'],
+      },
+      {
+        name: 'Citroengebakje', desc: 'Friszure lemon curd op zandbodem, afgewerkt met meringue.',
+        time: '75 min', yield: '12 stuks', diff: 'Gemiddeld',
+        ingredients: ['300 g zandkoekjes-deeg', '400 g lemon curd', '4 eiwitten', '200 g suiker'],
+        steps: ['Zandkoekjes-bodempjes blind bakken.', 'Lemon curd op de bodempjes.', 'Meringue maken (Italiaanse meringue).', 'Spuiten op de curd, lichtjes branden met brander.'],
+      },
+      {
+        name: 'Schwarzwaldgebakje', desc: 'Chocoladebiscuit, kersen op kirsch, slagroom en chocoladekrullen.',
+        time: '90 min', yield: '12 stuks', diff: 'Moeilijk',
+        ingredients: ['300 g chocoladebiscuit', '200 g morellen op kirsch', '500 ml slagroom', '100 g pure chocolade'],
+        steps: ['Biscuit in 3 dunne lagen snijden.', 'Doordrenken met kirsch-vocht.', 'Slagroom + kersen tussen lagen.', 'Afwerken met chocoladekrullen en kers.'],
+      },
+      {
+        name: 'Mille-feuille vanille', desc: 'Drie laagjes bladerdeeg met vanille-banketbakkersroom en suikerglazuur.',
+        time: '80 min', yield: '12 stuks', diff: 'Gemiddeld',
+        ingredients: ['500 g bladerdeeg', '600 ml vanille-banketbakkersroom', '200 g fondant', '50 g pure chocolade'],
+        steps: ['Bladerdeeg blind bakken in 3 dunne lagen.', 'Twee lagen royaal vullen met room.', 'Bovenste laag glaceren met fondant.', 'Marmer-patroon trekken met chocolade.'],
+      },
+      {
+        name: 'Aardbeiengebakje', desc: 'Seizoensfavoriet — verse aardbeien, banketbakkersroom en zandbodem.',
+        time: '40 min', yield: '12 stuks', diff: 'Eenvoudig',
+        ingredients: ['300 g zoete bodem', '400 g banketbakkersroom', '500 g verse aardbeien', '50 g abrikozengelei'],
+        steps: ['Bodempjes vullen met banketbakkersroom.', 'Aardbeien halveren, mooi schikken.', 'Bestrijken met gesmolten abrikozengelei voor glans.'],
+      },
+      {
+        name: 'Chocolade fondant', desc: 'Klein chocoladegebakje met vloeibaar hart, geserveerd warm of koud.',
+        time: '35 min', yield: '10 stuks', diff: 'Gemiddeld',
+        ingredients: ['200 g pure chocolade', '150 g boter', '4 eieren', '120 g suiker', '60 g bloem'],
+        steps: ['Chocolade + boter smelten au bain-marie.', 'Eieren met suiker schuimig kloppen.', 'Voorzichtig mengen met bloem.', 'In vormpjes, 8 min op 200 °C.'],
+      },
+    ];
+
+    const CAT_ICON_GEBAK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16M5 18V10h14v8"/><path d="M9 10V7h6v3"/><path d="M12 4v3"/></svg>';
+
+    let searchTerm = '';
+
+    function renderRecipeList() {
+      const list = document.getElementById('bakkerijRecipeList');
+      const term = searchTerm.trim().toLowerCase();
+      const filtered = GEBAK.filter(r => {
+        if (!term) return true;
+        if (r.name.toLowerCase().includes(term)) return true;
+        if (r.desc.toLowerCase().includes(term)) return true;
+        return r.ingredients.some(i => i.toLowerCase().includes(term));
+      });
+
+      if (filtered.length === 0) {
+        list.innerHTML = `<div class="recipe-empty">Geen producten gevonden.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(r => `
+        <button type="button" class="bakkerij-recipe-row" data-recipe-index="${GEBAK.indexOf(r)}">
+          <span class="bakkerij-recipe-icon">${CAT_ICON_GEBAK}</span>
+          <div class="bakkerij-recipe-info">
+            <div class="bakkerij-recipe-name">${r.name}</div>
+            <div class="bakkerij-recipe-desc">${r.desc}</div>
+            <div class="bakkerij-recipe-meta">
+              <span>${r.time}</span>
+              <span>·</span>
+              <span>${r.yield}</span>
+              <span>·</span>
+              <span>${r.diff}</span>
+            </div>
+          </div>
+          <span class="bakkerij-recipe-arrow">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </span>
+        </button>
+      `).join('');
+
+      list.querySelectorAll('.bakkerij-recipe-row').forEach(row => {
+        row.addEventListener('click', () => openRecipe(parseInt(row.dataset.recipeIndex, 10)));
+      });
+    }
+
+    function openRecipe(index) {
+      const r = GEBAK[index];
+      if (!r) return;
+      const card = document.getElementById('recipeModalCard');
+      card.innerHTML = `
+        <button class="recipe-modal-close" data-close aria-label="Sluiten">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="recipe-modal-head">
+          <div class="recipe-modal-icon">${CAT_ICON_GEBAK}</div>
+          <div>
+            <div class="recipe-modal-badge-pill">Gebak</div>
+            <h2 class="recipe-modal-title">${r.name}</h2>
+            <div class="recipe-modal-meta">
+              <span><strong>Bereidingstijd:</strong> ${r.time}</span>
+              <span><strong>Opbrengst:</strong> ${r.yield}</span>
+              <span><strong>Moeilijkheid:</strong> ${r.diff}</span>
+            </div>
+          </div>
+        </div>
+        <div class="recipe-modal-body">
+          <section class="recipe-section">
+            <h3 class="recipe-section-title">Ingrediënten</h3>
+            <ul class="recipe-ingredients">${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+          </section>
+          <section class="recipe-section">
+            <h3 class="recipe-section-title">Bereiding</h3>
+            <ol class="recipe-steps">${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+          </section>
+        </div>
+        <div class="recipe-modal-actions">
+          <button class="ghost-btn" data-close>Sluiten</button>
+          <button class="btn-primary" type="button">Recept bewerken</button>
+        </div>
+      `;
+      const m = document.getElementById('recipeModal');
+      m.classList.add('open');
+      m.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-close]')) {
+        const m = e.target.closest('.recipe-modal');
+        if (m) {
+          m.classList.remove('open');
+          m.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.recipe-modal.open').forEach(m => {
+          m.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+
+    document.getElementById('bakkerijSearch').addEventListener('input', e => {
+      searchTerm = e.target.value;
+      renderRecipeList();
+    });
+
+    renderRecipeList();
+
+    // ===== AI-assistent (stub met keyword-matching) =====
+    function addMessage(role, text) {
+      const chat = document.getElementById('bakkerijChat');
+      const wrap = document.createElement('div');
+      wrap.className = `chat-msg ${role}`;
+      wrap.innerHTML = `
+        <span class="chat-avatar ${role}">${role === 'ai' ? 'AI' : 'DV'}</span>
+        <div class="chat-bubble ${role}">${text}</div>
+      `;
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+      return wrap;
+    }
+
+    function addTyping() {
+      const chat = document.getElementById('bakkerijChat');
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-msg ai typing';
+      wrap.innerHTML = `
+        <span class="chat-avatar ai">AI</span>
+        <div class="chat-bubble ai"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      `;
+      chat.appendChild(wrap);
+      chat.scrollTop = chat.scrollHeight;
+      return wrap;
+    }
+
+    // Eenvoudige keyword-router voor demo-antwoorden.
+    function answerFor(question) {
+      const q = question.toLowerCase();
+      if (q.includes('boter') && (q.includes('prijs') || q.includes('+') || q.includes('stijg') || q.includes('marge'))) {
+        return `Een <strong>boterprijs +8%</strong> raakt de tompouce flink: in jouw recept is boter circa 32% van de variabele kosten. Dat betekent een marge-daling van ongeveer <strong>2,2%-punt</strong> per stuk. Mogelijke acties:<br>• Een prijsaanpassing van € 0,15 op de tompouce vangt dit op zonder zichtbare prijssprong.<br>• Of: verlaag de bladerdeeg-toer met 1 (van 3 naar 2). Smaakimpact minimaal.<br>Wil je een marge-tabel per gebak zien?`;
+      }
+      if ((q.includes('houdbaar') || q.includes('bewaar')) && q.includes('eclair')) {
+        return `Een eclair met verse banketbakkersroom is gekoeld <strong>maximaal 24 uur</strong> houdbaar. De soes wordt sneller zacht door vocht uit de room. Tip: vul pas vlak voor verkoop (max. 4 uur ervoor) om de korst krokant te houden.`;
+      }
+      if (q.includes('slagroomtaart') && (q.includes('12') || q.includes('aanpas') || q.includes('porties') || q.includes('personen'))) {
+        return `Voor een slagroomtaart van <strong>12 personen</strong> (i.p.v. 8) schaal je alle ingrediënten met factor <strong>1,5</strong>:<br>• Biscuit Ø 26 cm i.p.v. 22 cm, 3 lagen<br>• 750 ml verse slagroom, 75 g suiker<br>• 375 g gemengd fruit<br>• 75 g abrikozenjam<br>Houd dezelfde 90 minuten bereidingstijd aan; alleen de biscuit-baktijd gaat van 25 → 30 min.`;
+      }
+      if (q.includes('vervang') && (q.includes('amandelspijs') || q.includes('spijs'))) {
+        return `Geen amandelspijs op het oog? Snelle vervangers:<br>• <strong>Zelf maken:</strong> 1:1 geraspte amandelen + poedersuiker + ei (voor 250 g spijs: 125 g amandelen, 125 g poedersuiker, ½ ei).<br>• <strong>Banketbakkersroom + amandelschilfers</strong> als 'cheat' — werkt op het Strikgebakje verrassend goed.<br>• <strong>Frangipane</strong> heeft een soortgelijke smaak maar is iets natter (verminder andere vocht met ~10%).`;
+      }
+      if (q.includes('rijs') || q.includes('rijz')) {
+        return `Klassieke oorzaken bij slecht rijzen:<br>• <strong>Te koud water</strong> (gist activeert pas vanaf 25 °C).<br>• <strong>Te veel zout in direct contact</strong> met de gist — voeg apart toe.<br>• Te <strong>oud meel</strong> — bij volkoren is dit binnen 6 weken na malen.<br>Bij bladerdeeg is dit zelden gist-gerelateerd; check dan eerder of de boter koud genoeg blijft tussen toeren (max. 16 °C).`;
+      }
+      if (q.includes('allergeen') || q.includes('allergie') || q.includes('noten') || q.includes('gluten') || q.includes('lactose')) {
+        return `Voor allergeen-info kan ik per recept de hoofd-allergenen tonen (gluten, ei, melk, noten, soja). De meeste van je gebak bevat alle vier — wil je een specifiek recept doorlopen, of voorstellen voor een notenvrije of glutenvrije variant?`;
+      }
+      if (q.includes('productie') || q.includes('planning') || q.includes('plannen')) {
+        return `Op basis van je dashboard-data zou ik morgen (zaterdag, drukste dag) inzetten op:<br>• <strong>Croissants +35%</strong> — zijn al om 10:30 op.<br>• <strong>Strikgebakje +20%</strong> — top-3 omzetdrager.<br>• <strong>Bruin desem +15%</strong>.<br>Wil je een volledige productieplanning voor zaterdag genereren?`;
+      }
+      return `Goede vraag. In de volle versie haal ik antwoord uit je recepten-database, voorraad en POS-data. Voor nu — kun je iets specifieker zijn? Bijvoorbeeld: 'Hoe pas ik recept X aan?', 'Wat doet ingrediëntprijs X met mijn marge?', of 'Wat is de houdbaarheid van product X?'`;
+    }
+
+    function handleAsk(question) {
+      if (!question.trim()) return;
+      addMessage('user', question.trim());
+      const typing = addTyping();
+      setTimeout(() => {
+        typing.remove();
+        addMessage('ai', answerFor(question));
+      }, 700 + Math.random() * 600);
+    }
+
+    document.getElementById('bakkerijForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const input = document.getElementById('bakkerijInput');
+      const q = input.value;
+      input.value = '';
+      handleAsk(q);
+    });
+
+    document.querySelectorAll('#bakkerijSuggestions .bakkerij-chip').forEach(chip => {
+      chip.addEventListener('click', () => handleAsk(chip.textContent));
+    });
+  </script>
 </body>
 </html>
