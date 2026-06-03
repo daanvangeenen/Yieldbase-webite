@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bakkerij — Strik Patisserie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=36" />
+  <script>
+    (function() {
+      try {
+        var raw = localStorage.getItem('strik_auth');
+        if (!raw || JSON.parse(raw).email !== 'daan@software.nl') {
+          window.location.replace('login.html');
+        }
+      } catch (e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body class="choose-body">
+  <div class="choose-shell">
+    <header class="choose-topbar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+            <rect x="4"  y="20" width="5" height="8"  rx="1.5" fill="#9a9a9a"/>
+            <rect x="13" y="14" width="5" height="14" rx="1.5" fill="#4b4b4b"/>
+            <rect x="22" y="6"  width="5" height="22" rx="1.5" fill="#14181b"/>
+          </svg>
+        </div>
+        <div class="brand-name">YIELDBASE</div>
+      </div>
+
+      <div class="user-menu" id="userMenu">
+        <div class="user">
+          <div class="user-avatar">DV</div>
+          <div class="user-name">Daan</div>
+          <span class="user-caret"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+        <div class="user-dropdown">
+          <button class="logout-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17l5-5-5-5"/><path d="M20 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+            Uitloggen
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="choose-main">
+      <a href="start.html" class="back-link">← Terug naar startpagina</a>
+      <div class="choose-intro">
+        <span class="client-pill">Strik Patisserie · Bakkerij</span>
+        <h1 class="choose-greeting">Bakkerij-omgeving</h1>
+        <p class="choose-sub">
+          Hier komt de werkplek van de bakkers: <strong>productieplanning</strong>,
+          <strong>bestellingen</strong>, <strong>recepten</strong> en <strong>voorraad</strong>.
+          We bouwen deze pagina in de volgende stap samen verder uit.
+        </p>
+      </div>
+
+      <div class="bakkerij-placeholder">
+        <div class="bakkerij-placeholder-icon">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-3 2-5 5-5h6c3 0 5 2 5 5v3a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M8 10v2M12 10v2M16 10v2"/></svg>
+        </div>
+        <h2 class="bakkerij-placeholder-title">In aanbouw</h2>
+        <p class="bakkerij-placeholder-text">
+          De bakkerij-weergave is nog niet vormgegeven. Vertel me welke onderdelen
+          je hier wilt zien — denk aan: productie van vandaag, openstaande bestellingen,
+          recepten van de hardlopers, of een planning per shift.
+        </p>
+        <a href="start.html" class="btn-primary">← Terug naar startpagina</a>
+      </div>
+    </main>
+  </div>
+
+  <script src="auth.js?v=36"></script>
+</body>
+</html>

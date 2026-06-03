@@ -1999,6 +1999,169 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .ghost-btn:hover { background: var(--cream-light); }
 
+/* ===== Startpagina na inloggen — keuze tussen Management / Bakkerij ===== */
+.choose-body {
+  margin: 0;
+  background: var(--cream);
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+}
+.choose-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.choose-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 36px 0;
+}
+.choose-topbar .brand { margin: 0; padding: 0; }
+.choose-topbar .user-menu { margin: 0; }
+.choose-topbar .user-menu .user { padding: 8px 14px; border-radius: 999px; background: #fff; box-shadow: 0 1px 2px rgba(20, 24, 27, 0.04); }
+.choose-topbar .user-menu .user:hover { background: var(--cream-soft); }
+.choose-topbar .user-dropdown { bottom: auto; top: calc(100% + 6px); }
+
+.choose-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 36px 60px;
+  gap: 40px;
+}
+
+.choose-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.choose-greeting {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px;
+  font-weight: 700;
+  margin: 4px 0 0;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.choose-sub {
+  font-size: 16px;
+  color: var(--text-soft);
+  margin: 0;
+  max-width: 540px;
+  line-height: 1.55;
+}
+.choose-sub strong { color: var(--text); font-weight: 600; }
+
+.choose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 320px);
+  gap: 24px;
+}
+.choose-card {
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  padding: 32px 30px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  box-shadow: 0 2px 8px rgba(20, 24, 27, 0.05);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.choose-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(20, 24, 27, 0.12);
+  border-color: var(--wine-border);
+}
+.choose-card-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 22px;
+  background: var(--accent);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.choose-card-body { display: flex; flex-direction: column; gap: 8px; }
+.choose-card-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin: 0;
+  color: var(--text);
+}
+.choose-card-text {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin: 0;
+}
+.choose-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--wine);
+}
+.choose-card:hover .choose-card-cta { gap: 12px; }
+
+/* Bakkerij placeholder content */
+.bakkerij-placeholder {
+  background: #fff;
+  border-radius: 24px;
+  padding: 40px 36px;
+  max-width: 560px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(20, 24, 27, 0.05);
+}
+.bakkerij-placeholder-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bakkerij-placeholder-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+.bakkerij-placeholder-text {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.55;
+  margin: 0 0 8px;
+}
+
+@media (max-width: 800px) {
+  .choose-grid { grid-template-columns: 1fr; }
+  .choose-card { aspect-ratio: auto; min-height: 200px; }
+  .choose-greeting { font-size: 32px; }
+}
+
 /* ===== Recepturen — pagina ===== */
 
 /* Primaire (donkere) knop voor "Nieuw recept" + bewerken */

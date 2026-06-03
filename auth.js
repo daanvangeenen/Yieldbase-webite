@@ -44,7 +44,7 @@ function requireAuth() {
 // Inverse guard: if already logged in, skip the login page.
 function redirectIfLoggedIn() {
   if (isLoggedIn()) {
-    window.location.replace('index.html');
+    window.location.replace('start.html');
   }
 }
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     if (login(email, password)) {
-      window.location.href = 'index.html';
+      window.location.href = 'start.html';
     } else {
       errorEl.textContent = 'Onjuist e-mailadres of wachtwoord. Probeer het opnieuw.';
       errorEl.classList.add('visible');
