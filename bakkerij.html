@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=38" />
+  <link rel="stylesheet" href="styles.css?v=39" />
   <script>
     (function() {
       try {
@@ -35,13 +35,9 @@
       </div>
 
       <nav class="nav">
-        <a href="#recepten" class="nav-item active" data-section="recepten">
+        <a href="#" class="nav-item active">
           <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>
           Recepten
-        </a>
-        <a href="#vragen" class="nav-item" data-section="vragen">
-          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-2.5 2-2.5 3.5"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
-          Vragen
         </a>
       </nav>
 
@@ -78,70 +74,76 @@
         </div>
       </header>
 
-      <!-- Split: links recepten, rechts AI -->
-      <div class="bakkerij-split">
+      <!-- Zoekveldje boven het grid -->
+      <section class="bakkerij-toolbar">
+        <div class="recipe-search">
+          <span class="recipe-search-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="bakkerijSearch" placeholder="Zoek op product of ingrediënt…" />
+        </div>
+        <span class="bakkerij-toolbar-count" id="bakkerijCount"></span>
+      </section>
 
-        <!-- ===== LINKS: recepten ===== -->
-        <section class="bakkerij-recipes-panel" id="recepten">
-          <div class="bakkerij-panel-head">
-            <div>
-              <h2 class="bakkerij-panel-title">Recepten — Gebak</h2>
-              <p class="bakkerij-panel-sub">Klik op een product voor het volledige recept.</p>
-            </div>
-            <div class="recipe-search bakkerij-recipe-search">
-              <span class="recipe-search-icon">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              </span>
-              <input type="text" id="bakkerijSearch" placeholder="Zoek op product…" />
-            </div>
-          </div>
-
-          <div class="bakkerij-recipe-list" id="bakkerijRecipeList"></div>
-        </section>
-
-        <!-- ===== RECHTS: AI-assistent ===== -->
-        <section class="bakkerij-ai-panel" id="vragen">
-          <div class="bakkerij-ai-head">
-            <div class="bakkerij-ai-badge">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>
-            </div>
-            <div>
-              <h2 class="bakkerij-ai-title">Bakkerij-assistent</h2>
-              <p class="bakkerij-ai-sub">Stel vragen over recepten, productie, houdbaarheid en proces. Antwoord in seconden.</p>
-            </div>
-          </div>
-
-          <div class="bakkerij-chat" id="bakkerijChat">
-            <!-- Welkomstbericht van de assistent -->
-            <div class="chat-msg ai">
-              <span class="chat-avatar ai">AI</span>
-              <div class="chat-bubble ai">
-                Hoi Daan! Ik help je met alles rond de bakkerij —
-                van recept-aanpassingen tot houdbaarheid, ingrediënt-vervangers
-                en effect van een prijsstijging. Wat wil je weten?
-              </div>
-            </div>
-          </div>
-
-          <!-- Snel-suggesties (klikbare chips) -->
-          <div class="bakkerij-suggestions" id="bakkerijSuggestions">
-            <button class="bakkerij-chip" type="button">Hoe pas ik mijn slagroomtaart-recept aan voor 12 personen?</button>
-            <button class="bakkerij-chip" type="button">Wat is de impact van +8% boterprijs op de tompouce?</button>
-            <button class="bakkerij-chip" type="button">Hoe lang is een eclair met banketbakkersroom houdbaar?</button>
-            <button class="bakkerij-chip" type="button">Welk ingrediënt kan ik vervangen als amandelspijs op is?</button>
-          </div>
-
-          <!-- Invoerveld -->
-          <form class="bakkerij-input" id="bakkerijForm" autocomplete="off">
-            <input type="text" id="bakkerijInput" placeholder="Stel je vraag aan de assistent…" />
-            <button type="submit" class="bakkerij-send" aria-label="Verstuur">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
-          </form>
-        </section>
-
-      </div>
+      <!-- Recepten-grid, zelfde card-stijl als de management Recepturen-pagina -->
+      <section class="recipe-grid" id="bakkerijRecipeGrid"></section>
     </main>
+  </div>
+
+  <!-- ===== Floating AI-assistent ===== -->
+  <!-- Floating knop rechtsonder. Klik opent het chatvenster. -->
+  <button class="chat-fab" id="chatFab" type="button" aria-label="Open de AI-assistent">
+    <span class="chat-fab-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+    </span>
+    <span class="chat-fab-label">Vraag de AI</span>
+    <span class="chat-fab-dot"></span>
+  </button>
+
+  <!-- Chat-venster (geopend door op de FAB te klikken) -->
+  <div class="chat-widget" id="chatWidget" role="dialog" aria-modal="false" aria-hidden="true">
+    <header class="chat-widget-head">
+      <div class="chat-widget-badge">AI</div>
+      <div class="chat-widget-titles">
+        <div class="chat-widget-title">Bakkerij-assistent</div>
+        <div class="chat-widget-status">
+          <span class="chat-widget-statusdot"></span>
+          AI-bot · antwoordt in seconden
+        </div>
+      </div>
+      <button class="chat-widget-close" id="chatWidgetClose" type="button" aria-label="Sluiten">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </header>
+
+    <div class="chat-widget-notice">
+      Dit is een AI-chatbot. Antwoorden zijn een suggestie — controleer ze altijd zelf.
+    </div>
+
+    <div class="chat-widget-body" id="bakkerijChat">
+      <div class="chat-msg ai">
+        <span class="chat-avatar ai">AI</span>
+        <div class="chat-bubble ai">
+          Hoi Daan! Ik help je met alles rond de bakkerij —
+          van recept-aanpassingen tot houdbaarheid, ingrediënt-vervangers
+          en effect van een prijsstijging. Wat wil je weten?
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-widget-suggestions" id="bakkerijSuggestions">
+      <button class="bakkerij-chip" type="button">Slagroomtaart voor 12 personen?</button>
+      <button class="bakkerij-chip" type="button">Impact +8% boterprijs op tompouce?</button>
+      <button class="bakkerij-chip" type="button">Houdbaarheid eclair?</button>
+      <button class="bakkerij-chip" type="button">Vervanger voor amandelspijs?</button>
+    </div>
+
+    <form class="chat-widget-input bakkerij-input" id="bakkerijForm" autocomplete="off">
+      <input type="text" id="bakkerijInput" placeholder="Stel je vraag…" />
+      <button type="submit" class="bakkerij-send" aria-label="Verstuur">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
   </div>
 
   <!-- Modal: recept-detail (zelfde stijl als op de Recepturen-pagina) -->
@@ -150,7 +152,7 @@
     <div class="recipe-modal-card" id="recipeModalCard"></div>
   </div>
 
-  <script src="auth.js?v=38"></script>
+  <script src="auth.js?v=39"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
     const GEBAK = [
@@ -245,7 +247,8 @@
     let searchTerm = '';
 
     function renderRecipeList() {
-      const list = document.getElementById('bakkerijRecipeList');
+      const grid = document.getElementById('bakkerijRecipeGrid');
+      const countEl = document.getElementById('bakkerijCount');
       const term = searchTerm.trim().toLowerCase();
       const filtered = GEBAK.filter(r => {
         if (!term) return true;
@@ -254,33 +257,34 @@
         return r.ingredients.some(i => i.toLowerCase().includes(term));
       });
 
+      countEl.textContent = `${filtered.length} ${filtered.length === 1 ? 'product' : 'producten'}`;
+
       if (filtered.length === 0) {
-        list.innerHTML = `<div class="recipe-empty">Geen producten gevonden.</div>`;
+        grid.innerHTML = `<div class="recipe-empty">Geen producten gevonden.</div>`;
         return;
       }
 
-      list.innerHTML = filtered.map(r => `
-        <button type="button" class="bakkerij-recipe-row" data-recipe-index="${GEBAK.indexOf(r)}">
-          <span class="bakkerij-recipe-icon">${CAT_ICON_GEBAK}</span>
-          <div class="bakkerij-recipe-info">
-            <div class="bakkerij-recipe-name">${r.name}</div>
-            <div class="bakkerij-recipe-desc">${r.desc}</div>
-            <div class="bakkerij-recipe-meta">
-              <span>${r.time}</span>
-              <span>·</span>
-              <span>${r.yield}</span>
-              <span>·</span>
-              <span>${r.diff}</span>
-            </div>
+      grid.innerHTML = filtered.map(r => `
+        <button class="recipe-card" type="button" data-recipe-index="${GEBAK.indexOf(r)}">
+          <div class="recipe-card-head">
+            <span class="recipe-card-icon">${CAT_ICON_GEBAK}</span>
+            <span class="recipe-card-badge">Gebak</span>
           </div>
-          <span class="bakkerij-recipe-arrow">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </span>
+          <h3 class="recipe-card-title">${r.name}</h3>
+          <p class="recipe-card-desc">${r.desc}</p>
+          <div class="recipe-card-meta">
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ${r.time}</span>
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg> ${r.yield}</span>
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6a8 8 0 0 1-16 0z"/><path d="M9 20h6"/><path d="M12 16v4"/></svg> ${r.diff}</span>
+          </div>
+          <div class="recipe-card-foot">
+            <span class="recipe-card-cta">Bekijk recept →</span>
+          </div>
         </button>
       `).join('');
 
-      list.querySelectorAll('.bakkerij-recipe-row').forEach(row => {
-        row.addEventListener('click', () => openRecipe(parseInt(row.dataset.recipeIndex, 10)));
+      grid.querySelectorAll('.recipe-card').forEach(card => {
+        card.addEventListener('click', () => openRecipe(parseInt(card.dataset.recipeIndex, 10)));
       });
     }
 
@@ -426,16 +430,25 @@
       chip.addEventListener('click', () => handleAsk(chip.textContent));
     });
 
-    // Sidebar-nav: highlight + scroll naar de juiste sectie
-    document.querySelectorAll('.nav-item[data-section]').forEach(link => {
-      link.addEventListener('click', e => {
-        const target = document.getElementById(link.dataset.section);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          document.querySelectorAll('.nav-item[data-section]').forEach(l => l.classList.toggle('active', l === link));
-        }
-      });
+    // Chat-widget open/close
+    const fab    = document.getElementById('chatFab');
+    const widget = document.getElementById('chatWidget');
+    const wClose = document.getElementById('chatWidgetClose');
+    function openChat() {
+      widget.classList.add('open');
+      widget.setAttribute('aria-hidden', 'false');
+      fab.classList.add('hidden');
+      setTimeout(() => document.getElementById('bakkerijInput')?.focus(), 200);
+    }
+    function closeChat() {
+      widget.classList.remove('open');
+      widget.setAttribute('aria-hidden', 'true');
+      fab.classList.remove('hidden');
+    }
+    fab.addEventListener('click', openChat);
+    wClose.addEventListener('click', closeChat);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && widget.classList.contains('open')) closeChat();
     });
   </script>
 </body>
