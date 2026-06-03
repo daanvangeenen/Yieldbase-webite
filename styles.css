@@ -2730,27 +2730,66 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .recipe-ingredients li {
   position: relative;
-  padding-left: 16px;
-  font-size: 14px;
+  padding: 4px 8px 4px 22px;
+  font-size: 14.5px;
   color: var(--text);
   line-height: 1.5;
+  border-radius: 6px;
 }
+.recipe-ingredients li:hover { background: var(--cream-light); }
 .recipe-ingredients li::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 9px;
+  left: 8px;
+  top: 13px;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
 }
+
+/* Klikbare halffabricaat-link in een ingredient (bv. banketbakkersroom) */
+.ingredient-link {
+  color: var(--wine);
+  font-weight: 600;
+  background: var(--accent-soft);
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  border-bottom: 1px dashed var(--wine);
+  cursor: pointer;
+}
+.ingredient-link:hover {
+  background: var(--accent);
+  border-bottom-style: solid;
+}
+.ingredient-link::after {
+  content: ' ↗';
+  font-size: 11px;
+  opacity: .6;
+}
+
+/* Terug-knop in modal-header bij sub-recept-navigatie */
+.recipe-modal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.recipe-modal-back:hover { color: var(--wine); }
 .recipe-steps {
   margin: 0;
   padding-left: 22px;

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=40" />
+  <link rel="stylesheet" href="styles.css?v=41" />
   <script>
     (function() {
       try {
@@ -147,7 +147,8 @@
     </div>
   </div>
 
-  <script src="auth.js?v=40"></script>
+  <script src="auth.js?v=41"></script>
+  <script src="subrecipes.js?v=41"></script>
   <script>
     // ===== Recepten-data (fictief, matcht de top 10 + paar extra producten) =====
     const RECIPES = [
@@ -450,16 +451,19 @@
       });
     }
 
-    function openRecipe(index) {
-      const r = RECIPES[index];
-      if (!r) return;
+    // Stack voor sub-recept navigatie (halffabricaten zoals banketbakkersroom).
+    const recipeStack = [];
+
+    function renderRecipeModal(r, showBack) {
       const card = document.getElementById('recipeModalCard');
+      const icon = CAT_ICONS[r.cat] || CAT_ICONS['Overig'];
       card.innerHTML = `
         <button class="recipe-modal-close" data-close aria-label="Sluiten">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
+        ${showBack ? '<button class="recipe-modal-back" data-back>← Terug naar vorig recept</button>' : ''}
         <div class="recipe-modal-head">
-          <div class="recipe-modal-icon">${CAT_ICONS[r.cat] || CAT_ICONS['Overig']}</div>
+          <div class="recipe-modal-icon">${icon}</div>
           <div>
             <div class="recipe-modal-badge-pill">${r.cat}</div>
             <h2 class="recipe-modal-title">${r.name}</h2>
@@ -475,7 +479,7 @@
           <section class="recipe-section">
             <h3 class="recipe-section-title">Ingrediënten</h3>
             <ul class="recipe-ingredients">
-              ${r.ingredients.map(i => `<li>${i}</li>`).join('')}
+              ${r.ingredients.map(i => `<li>${linkifyIngredient(i)}</li>`).join('')}
             </ul>
           </section>
 
@@ -498,8 +502,46 @@
           <button class="btn-primary" type="button">Recept bewerken</button>
         </div>
       `;
+    }
+
+    function openRecipe(index) {
+      const r = RECIPES[index];
+      if (!r) return;
+      recipeStack.length = 0;
+      renderRecipeModal(r, false);
       openModal('recipeModal');
     }
+
+    function openSubrecipe(key, fromRecipe) {
+      const sub = SUBRECIPES[key];
+      if (!sub) return;
+      if (fromRecipe) recipeStack.push(fromRecipe);
+      renderRecipeModal(sub, recipeStack.length > 0);
+      document.getElementById('recipeModalCard').scrollTop = 0;
+    }
+
+    function goBackInRecipe() {
+      if (recipeStack.length === 0) return;
+      const prev = recipeStack.pop();
+      renderRecipeModal(prev, recipeStack.length > 0);
+      document.getElementById('recipeModalCard').scrollTop = 0;
+    }
+
+    // Klik-handler binnen de modal: vang sub-recipe links en 'Terug' op.
+    document.getElementById('recipeModalCard').addEventListener('click', e => {
+      const link = e.target.closest('.ingredient-link');
+      if (link) {
+        e.preventDefault();
+        const currentTitle = document.querySelector('.recipe-modal-title')?.textContent;
+        const currentRecipe = [...RECIPES, ...Object.values(SUBRECIPES)].find(r => r.name === currentTitle);
+        openSubrecipe(link.dataset.subrecipe, currentRecipe);
+        return;
+      }
+      if (e.target.closest('[data-back]')) {
+        e.preventDefault();
+        goBackInRecipe();
+      }
+    });
 
     function openModal(id) {
       const m = document.getElementById(id);
