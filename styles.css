@@ -2989,6 +2989,78 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin: 0 0 16px;
 }
 
+/* "Nieuw recept invoeren" — 3 grote vierkante keuze-tegels */
+.recipe-new-card {
+  max-width: 760px;
+  padding: 32px 36px 32px;
+}
+.recipe-new-card .recipe-modal-title {
+  text-align: center;
+  margin-top: 4px;
+}
+.recipe-new-card .recipe-modal-sub {
+  text-align: center;
+}
+.recipe-new-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+.recipe-new-option {
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+}
+.recipe-new-option:hover {
+  transform: translateY(-3px);
+  border-color: var(--wine);
+  box-shadow: 0 12px 26px rgba(20, 24, 27, 0.10);
+}
+.recipe-new-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: var(--accent);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.recipe-new-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.recipe-new-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+.recipe-new-desc {
+  font-size: 12px;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .recipe-new-grid { grid-template-columns: 1fr; }
+  .recipe-new-option { aspect-ratio: auto; flex-direction: row; text-align: left; }
+  .recipe-new-text { flex: 1; }
+}
+
 @media (max-width: 1280px) {
   .recipe-grid { grid-template-columns: repeat(3, 1fr); }
 }
