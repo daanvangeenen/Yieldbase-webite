@@ -3097,9 +3097,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   resize: vertical;
 }
 .recipe-form input[type="text"]:focus,
-.recipe-form textarea:focus {
+.recipe-form input[type="number"]:focus,
+.recipe-form textarea:focus,
+.recipe-form-select:focus {
   border-color: var(--wine);
   box-shadow: 0 0 0 3px rgba(20, 24, 27, 0.06);
+}
+.recipe-form input[type="number"],
+.recipe-form-select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
 
 /* Eindproduct / Halffabricaat toggle */

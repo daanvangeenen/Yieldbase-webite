@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grondstoffen — Strik Patisserie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=51" />
+  <script>
+    (function() {
+      try {
+        var raw = localStorage.getItem('strik_auth');
+        if (!raw || JSON.parse(raw).email !== 'daan@software.nl') {
+          window.location.replace('login.html');
+        }
+      } catch (e) { window.location.replace('login.html'); }
+    })();
+  </script>
+</head>
+<body>
+  <div class="app">
+    <!-- SIDEBAR — zelfde structuur als Bakkerij, met Grondstoffen actief -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+            <rect x="4"  y="20" width="5" height="8"  rx="1.5" fill="#9a9a9a"/>
+            <rect x="13" y="14" width="5" height="14" rx="1.5" fill="#4b4b4b"/>
+            <rect x="22" y="6"  width="5" height="22" rx="1.5" fill="#14181b"/>
+          </svg>
+        </div>
+        <div class="brand-name">YIELDBASE</div>
+      </div>
+
+      <nav class="nav">
+        <a href="bakkerij.html" class="nav-item">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>
+          Recepten
+        </a>
+        <a href="grondstoffen.html" class="nav-item active">
+          <span class="nav-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+          Grondstoffen
+        </a>
+      </nav>
+
+      <div class="user-menu" id="userMenu">
+        <div class="user">
+          <div class="user-avatar">DV</div>
+          <div class="user-name">Daan</div>
+          <span class="user-caret"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+        <div class="user-dropdown">
+          <button class="logout-btn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17l5-5-5-5"/><path d="M20 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></svg>
+            Uitloggen
+          </button>
+          <a href="start.html" class="logout-btn" style="text-decoration:none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M4 9h16"/></svg>
+            Wissel weergave
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <header class="topbar">
+        <div class="title-wrap">
+          <div class="page-title-row">
+            <h1 class="page-title">Grondstoffen</h1>
+            <span class="client-pill">Strik Patisserie</span>
+          </div>
+          <p class="page-sub">Master-lijst van inkoopprijzen. Recepten en kostprijs-berekeningen koppelen automatisch hieraan.</p>
+        </div>
+
+        <div class="topbar-controls">
+          <button class="btn-primary btn-primary-lg" id="newGrondstofBtn" type="button">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nieuwe grondstof
+          </button>
+        </div>
+      </header>
+
+      <!-- Zoekveld + categoriefilter -->
+      <section class="bakkerij-toolbar">
+        <div class="recipe-search">
+          <span class="recipe-search-icon">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="grondSearch" placeholder="Zoek op naam of leverancier…" />
+        </div>
+        <span class="bakkerij-toolbar-count" id="grondCount"></span>
+      </section>
+
+      <section class="recipe-filters" id="grondFilters"></section>
+
+      <!-- Grondstoffen-tabel -->
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h2 class="card-title">Alle grondstoffen</h2>
+            <p class="card-sub">Klik op een rij om de inkoopprijs of leverancier aan te passen.</p>
+          </div>
+        </div>
+        <table class="table grondstof-table">
+          <thead>
+            <tr>
+              <th>Naam</th>
+              <th>Categorie</th>
+              <th class="num">Eenheid</th>
+              <th class="num">Inkoopprijs</th>
+              <th>Leverancier</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody id="grondBody"></tbody>
+        </table>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-left">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span id="grondFooterCount"></span>
+        </div>
+        <div class="footer-right">
+          <a href="kostprijs.html">→ Bekijk kostprijs per product</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modal: nieuwe grondstof toevoegen -->
+  <div class="recipe-modal" id="grondModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="recipe-modal-backdrop" data-close></div>
+    <div class="recipe-modal-card recipe-modal-small">
+      <button class="recipe-modal-close" data-close aria-label="Sluiten">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <h2 class="recipe-modal-title">Nieuwe grondstof</h2>
+      <p class="recipe-modal-sub">Voeg een grondstof toe aan je master-lijst. Recepten gebruiken deze naam om de kostprijs te berekenen.</p>
+
+      <form id="grondForm" class="recipe-form" novalidate>
+        <div class="recipe-form-section">
+          <label class="recipe-form-label" for="grondName">Naam *</label>
+          <input id="grondName" type="text" required placeholder="bv. Volkorenmeel" />
+        </div>
+
+        <div class="recipe-form-row">
+          <div class="recipe-form-field">
+            <label class="recipe-form-label" for="grondCat">Categorie *</label>
+            <select id="grondCat" class="recipe-form-select" required>
+              <option value="Bloem & meel">Bloem & meel</option>
+              <option value="Zuivel">Zuivel</option>
+              <option value="Eieren">Eieren</option>
+              <option value="Suikers">Suikers</option>
+              <option value="Chocolade">Chocolade</option>
+              <option value="Smaakstoffen">Smaakstoffen</option>
+              <option value="Fruit & noten">Fruit & noten</option>
+              <option value="Rijs- & bindmiddelen">Rijs- & bindmiddelen</option>
+              <option value="Halffabricaat">Halffabricaat</option>
+              <option value="Overig">Overig</option>
+            </select>
+          </div>
+          <div class="recipe-form-field">
+            <label class="recipe-form-label" for="grondUnit">Eenheid *</label>
+            <select id="grondUnit" class="recipe-form-select" required>
+              <option value="kg">kg</option>
+              <option value="gram">gram</option>
+              <option value="liter">liter</option>
+              <option value="ml">ml</option>
+              <option value="stuk">stuk</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="recipe-form-row">
+          <div class="recipe-form-field">
+            <label class="recipe-form-label" for="grondPrice">Inkoopprijs (€ per eenheid) *</label>
+            <input id="grondPrice" type="number" step="0.01" min="0" required placeholder="bv. 1.20" />
+          </div>
+          <div class="recipe-form-field">
+            <label class="recipe-form-label" for="grondSupplier">Leverancier</label>
+            <input id="grondSupplier" type="text" placeholder="bv. Bakker & Co" />
+          </div>
+        </div>
+
+        <div class="recipe-form-error" id="grondError" hidden></div>
+
+        <div class="recipe-modal-actions">
+          <button class="ghost-btn" type="button" data-close>Annuleren</button>
+          <button class="btn-primary" type="submit">Grondstof toevoegen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="auth.js?v=51"></script>
+  <script>
+    // ===== Standaard-grondstoffen (master-lijst, gebaseerd op recepten) =====
+    // trend: 'up' = inkoopprijs stijgt, 'down' = daalt, 'stable' = vlak.
+    // Boterprijs +8% sluit aan op de analyses-tab.
+    const GRONDSTOFFEN = [
+      // Bloem & meel
+      { name: 'Tarwebloem T55',         cat: 'Bloem & meel',           unit: 'kg',    price: 0.80,  supplier: 'Meelfabriek Mertens', trend: 'stable' },
+      { name: 'Volkorenmeel',           cat: 'Bloem & meel',           unit: 'kg',    price: 1.10,  supplier: 'Meelfabriek Mertens', trend: 'stable' },
+      { name: 'Maizena',                cat: 'Bloem & meel',           unit: 'kg',    price: 2.80,  supplier: 'Sligro',              trend: 'stable' },
+
+      // Zuivel
+      { name: 'Volle melk',             cat: 'Zuivel',                 unit: 'liter', price: 1.10,  supplier: 'CONO Beemster',       trend: 'stable' },
+      { name: 'Verse slagroom 35%',     cat: 'Zuivel',                 unit: 'liter', price: 4.80,  supplier: 'CONO Beemster',       trend: 'stable' },
+      { name: 'Roomboter ongezouten',   cat: 'Zuivel',                 unit: 'kg',    price: 9.50,  supplier: 'Beemster Boter',      trend: 'up',     trendVal: 8.0 },
+      { name: 'Margarine',              cat: 'Zuivel',                 unit: 'kg',    price: 3.80,  supplier: 'Sligro',              trend: 'stable' },
+
+      // Eieren
+      { name: 'Eieren (los, M)',        cat: 'Eieren',                 unit: 'stuk',  price: 0.30,  supplier: 'Boerderij Vink',      trend: 'stable' },
+      { name: 'Eierdooier vloeibaar',   cat: 'Eieren',                 unit: 'kg',    price: 7.50,  supplier: 'Bouwhuis Enthoven',   trend: 'stable' },
+      { name: 'Eiwit vloeibaar',        cat: 'Eieren',                 unit: 'kg',    price: 4.20,  supplier: 'Bouwhuis Enthoven',   trend: 'stable' },
+
+      // Suikers
+      { name: 'Kristalsuiker',          cat: 'Suikers',                unit: 'kg',    price: 1.20,  supplier: 'Suiker Unie',         trend: 'stable' },
+      { name: 'Poedersuiker',           cat: 'Suikers',                unit: 'kg',    price: 1.60,  supplier: 'Suiker Unie',         trend: 'stable' },
+      { name: 'Vanillesuiker',          cat: 'Suikers',                unit: 'kg',    price: 18.00, supplier: 'Sligro',              trend: 'stable' },
+      { name: 'Fondantsuiker',          cat: 'Suikers',                unit: 'kg',    price: 4.50,  supplier: 'Sligro',              trend: 'stable' },
+
+      // Chocolade
+      { name: 'Pure couverture 70%',    cat: 'Chocolade',              unit: 'kg',    price: 14.00, supplier: 'Callebaut',           trend: 'up',     trendVal: 3.5 },
+      { name: 'Melkchocolade',          cat: 'Chocolade',              unit: 'kg',    price: 13.00, supplier: 'Callebaut',           trend: 'up',     trendVal: 3.5 },
+      { name: 'Witte chocolade',        cat: 'Chocolade',              unit: 'kg',    price: 12.00, supplier: 'Callebaut',           trend: 'up',     trendVal: 2.0 },
+      { name: 'Cacaopoeder',            cat: 'Chocolade',              unit: 'kg',    price: 9.50,  supplier: 'Callebaut',           trend: 'stable' },
+
+      // Smaakstoffen
+      { name: 'Vanillestokje',          cat: 'Smaakstoffen',           unit: 'stuk',  price: 1.50,  supplier: 'Verstegen',           trend: 'stable' },
+      { name: 'Vanille-extract',        cat: 'Smaakstoffen',           unit: 'liter', price: 28.00, supplier: 'Verstegen',           trend: 'stable' },
+      { name: 'Kirsch',                 cat: 'Smaakstoffen',           unit: 'liter', price: 14.00, supplier: 'Sligro',              trend: 'stable' },
+
+      // Fruit & noten
+      { name: 'Amandelen geraspt',      cat: 'Fruit & noten',          unit: 'kg',    price: 14.00, supplier: 'Verstegen',           trend: 'stable' },
+      { name: 'Amandelschilfers',       cat: 'Fruit & noten',          unit: 'kg',    price: 16.00, supplier: 'Verstegen',           trend: 'stable' },
+      { name: 'Hazelnoten',             cat: 'Fruit & noten',          unit: 'kg',    price: 18.00, supplier: 'Verstegen',           trend: 'up',     trendVal: 5.0 },
+      { name: 'Citroenen',              cat: 'Fruit & noten',          unit: 'stuk',  price: 0.40,  supplier: 'Veiling The Greenery',trend: 'stable' },
+      { name: 'Aardbeien (vers)',       cat: 'Fruit & noten',          unit: 'kg',    price: 6.50,  supplier: 'Veiling The Greenery',trend: 'down',   trendVal: -8.0 },
+      { name: 'Frambozen (diepvries)',  cat: 'Fruit & noten',          unit: 'kg',    price: 8.90,  supplier: 'Sligro',              trend: 'stable' },
+
+      // Rijs- & bindmiddelen
+      { name: 'Droge gist',             cat: 'Rijs- & bindmiddelen',   unit: 'kg',    price: 18.00, supplier: 'Lesaffre',            trend: 'stable' },
+      { name: 'Gelatine (blaadjes)',    cat: 'Rijs- & bindmiddelen',   unit: 'kg',    price: 32.00, supplier: 'Sligro',              trend: 'stable' },
+
+      // Halffabricaten (kant-en-klaar gekocht)
+      { name: 'Bladerdeeg',             cat: 'Halffabricaat',          unit: 'kg',    price: 8.50,  supplier: 'Banketfabriek Smit',  trend: 'up',     trendVal: 2.5 },
+      { name: 'Banketbakkersroom',      cat: 'Halffabricaat',          unit: 'liter', price: 4.80,  supplier: 'Banketfabriek Smit',  trend: 'stable' },
+      { name: 'Amandelspijs',           cat: 'Halffabricaat',          unit: 'kg',    price: 13.00, supplier: 'Banketfabriek Smit',  trend: 'stable' },
+      { name: 'Marsepein wit',          cat: 'Halffabricaat',          unit: 'kg',    price: 13.00, supplier: 'Banketfabriek Smit',  trend: 'stable' },
+
+      // Overig
+      { name: 'Zout',                   cat: 'Overig',                 unit: 'kg',    price: 0.70,  supplier: 'Sligro',              trend: 'stable' },
+      { name: 'Rozijnen',               cat: 'Overig',                 unit: 'kg',    price: 5.20,  supplier: 'Verstegen',           trend: 'stable' },
+      { name: 'Worstgehakt gekruid',    cat: 'Overig',                 unit: 'kg',    price: 8.90,  supplier: 'Slagerij Berends',    trend: 'stable' },
+    ];
+
+    // Door gebruiker toegevoegde grondstoffen (localStorage)
+    const GRONDSTOF_KEY = 'strik_user_grondstoffen';
+    let USER_GROND = [];
+    try { USER_GROND = JSON.parse(localStorage.getItem(GRONDSTOF_KEY) || '[]'); }
+    catch (e) { USER_GROND = []; }
+    function saveUserGrond() { localStorage.setItem(GRONDSTOF_KEY, JSON.stringify(USER_GROND)); }
+    function allGrond() { return [...GRONDSTOFFEN, ...USER_GROND]; }
+
+    // Categorieën dynamisch uit de data (voor de filterbar)
+    function getCategories() {
+      const cats = new Set();
+      allGrond().forEach(g => cats.add(g.cat));
+      return [...cats];
+    }
+
+    function fmtEuro(n) { return '€ ' + n.toFixed(2).replace('.', ','); }
+    function fmtPct(n, d = 1) { return n.toFixed(d).replace('.', ',') + '%'; }
+
+    let activeCat = 'all';
+    let searchTerm = '';
+
+    function renderFilters() {
+      const wrap = document.getElementById('grondFilters');
+      const cats = getCategories();
+      wrap.innerHTML = `
+        <button class="recipe-filter ${activeCat === 'all' ? 'active' : ''}" data-cat="all">Alles</button>
+        ${cats.map(c => `<button class="recipe-filter ${activeCat === c ? 'active' : ''}" data-cat="${c}">${c}</button>`).join('')}
+      `;
+      wrap.querySelectorAll('.recipe-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCat = btn.dataset.cat;
+          renderFilters();
+          renderTable();
+        });
+      });
+    }
+
+    function trendCell(g) {
+      if (g.trend === 'up') {
+        return `<span class="trend-pill down"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 14 12 8 18 14"/></svg> +${fmtPct(g.trendVal || 0, 1)}</span>`;
+      }
+      if (g.trend === 'down') {
+        return `<span class="trend-pill up"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 10 12 16 18 10"/></svg> ${fmtPct(g.trendVal || 0, 1)}</span>`;
+      }
+      return `<span class="trend-pill stable">— stabiel</span>`;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('grondBody');
+      const term = searchTerm.trim().toLowerCase();
+      const all = allGrond();
+      const list = all.filter(g => {
+        if (activeCat !== 'all' && g.cat !== activeCat) return false;
+        if (!term) return true;
+        return g.name.toLowerCase().includes(term) || (g.supplier || '').toLowerCase().includes(term);
+      });
+
+      document.getElementById('grondCount').textContent =
+        `${list.length} ${list.length === 1 ? 'grondstof' : 'grondstoffen'} getoond · ${all.length} totaal`;
+      document.getElementById('grondFooterCount').textContent =
+        `${all.length} grondstoffen · laatst bijgewerkt: 20 apr 2025`;
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-soft);padding:32px 0;">Geen grondstoffen gevonden.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(g => `
+        <tr>
+          <td>
+            <strong>${g.name}</strong>
+            ${g.isUser ? '<span class="recipe-card-mine" style="margin-left:6px;">eigen</span>' : ''}
+          </td>
+          <td><span class="cat-pill">${g.cat}</span></td>
+          <td class="num">${g.unit}</td>
+          <td class="num">${fmtEuro(g.price)} <span style="color:var(--text-soft);font-weight:400;">/ ${g.unit}</span></td>
+          <td>${g.supplier || '—'}</td>
+          <td>${trendCell(g)}</td>
+        </tr>
+      `).join('');
+    }
+
+    document.getElementById('grondSearch').addEventListener('input', e => {
+      searchTerm = e.target.value;
+      renderTable();
+    });
+
+    renderFilters();
+    renderTable();
+
+    // ===== "Nieuwe grondstof"-modal =====
+    const grondModal = document.getElementById('grondModal');
+    const newBtn     = document.getElementById('newGrondstofBtn');
+    function openGrondModal() {
+      document.getElementById('grondForm').reset();
+      document.getElementById('grondError').hidden = true;
+      grondModal.classList.add('open');
+      grondModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('grondName')?.focus(), 100);
+    }
+    newBtn.addEventListener('click', openGrondModal);
+
+    document.addEventListener('click', e => {
+      if (e.target.closest('[data-close]')) {
+        const m = e.target.closest('.recipe-modal');
+        if (m) {
+          m.classList.remove('open');
+          m.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.recipe-modal.open').forEach(m => {
+          m.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+
+    document.getElementById('grondForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name     = document.getElementById('grondName').value.trim();
+      const cat      = document.getElementById('grondCat').value;
+      const unit     = document.getElementById('grondUnit').value;
+      const price    = parseFloat(document.getElementById('grondPrice').value);
+      const supplier = document.getElementById('grondSupplier').value.trim();
+      const err = document.getElementById('grondError');
+
+      if (!name)            { err.textContent = 'Geef de grondstof een naam.';        err.hidden = false; return; }
+      if (!isFinite(price) || price < 0) { err.textContent = 'Vul een geldige inkoopprijs in.'; err.hidden = false; return; }
+      err.hidden = true;
+
+      USER_GROND.push({
+        name, cat, unit, price, supplier,
+        trend: 'stable',
+        isUser: true,
+        createdAt: Date.now(),
+      });
+      saveUserGrond();
+      renderFilters();
+      renderTable();
+
+      grondModal.classList.remove('open');
+      grondModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      showToast(`'${name}' is toegevoegd aan je grondstoffen.`);
+    });
+
+    // ===== Toast =====
+    let toastTimer = null;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.hidden = false;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        t.classList.remove('show');
+        setTimeout(() => t.hidden = true, 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
