@@ -3061,6 +3061,192 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .recipe-new-text { flex: 1; }
 }
 
+/* ===== Handmatig recept-formulier ===== */
+.recipe-form { display: flex; flex-direction: column; gap: 18px; margin-top: 8px; }
+.recipe-form-section { display: flex; flex-direction: column; gap: 6px; }
+.recipe-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.recipe-form-field { display: flex; flex-direction: column; gap: 6px; }
+.recipe-form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.recipe-form-hint {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.recipe-form input[type="text"],
+.recipe-form textarea {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  resize: vertical;
+}
+.recipe-form input[type="text"]:focus,
+.recipe-form textarea:focus {
+  border-color: var(--wine);
+  box-shadow: 0 0 0 3px rgba(20, 24, 27, 0.06);
+}
+
+/* Eindproduct / Halffabricaat toggle */
+.recipe-type-toggle {
+  display: inline-flex;
+  background: var(--cream-light);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+  align-self: flex-start;
+}
+.recipe-type-btn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.recipe-type-btn.active {
+  background: var(--wine);
+  color: #fff;
+}
+
+/* Dynamische rijen voor ingrediënten en stappen */
+.recipe-rows { display: flex; flex-direction: column; gap: 6px; }
+.recipe-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.recipe-row .recipe-row-input {
+  flex: 1;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s ease;
+}
+.recipe-row .recipe-row-input:focus { border-color: var(--wine); }
+.recipe-row-num {
+  flex: 0 0 28px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.recipe-row-remove {
+  flex: 0 0 36px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--cream-light);
+  color: var(--text-soft);
+  border: 0;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  transition: background .15s ease, color .15s ease;
+}
+.recipe-row-remove:hover { background: rgba(192, 57, 43, 0.10); color: #c0392b; }
+
+.recipe-row-add {
+  align-self: flex-start;
+  background: transparent;
+  border: 1px dashed var(--line);
+  color: var(--wine);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.recipe-row-add:hover { background: var(--cream-light); border-color: var(--wine); }
+
+.recipe-form-error {
+  background: rgba(192, 57, 43, 0.10);
+  color: #c0392b;
+  border: 1px solid rgba(192, 57, 43, 0.20);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+/* Vergroot de modal zodat het formulier comfortabel past */
+.recipe-new-card { max-width: 760px; }
+.recipe-new-card .recipe-new-view[data-view="form"] { max-height: 75vh; overflow-y: auto; padding-right: 4px; }
+
+/* Halffabricaat-badge (afwijkende stijl t.o.v. Gebak) */
+.recipe-card-badge.half {
+  background: var(--cream-light);
+  color: var(--text-soft);
+  border: 1px solid var(--line);
+}
+
+/* Eigen-recept marker onder de titel */
+.recipe-card-mine {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wine);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+/* ===== Toast — bevestigingsmelding onderaan in beeld ===== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background: var(--wine);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: 999px;
+  box-shadow: 0 14px 32px rgba(20, 24, 27, 0.30);
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (max-width: 700px) {
+  .recipe-form-row { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 1280px) {
   .recipe-grid { grid-template-columns: repeat(3, 1fr); }
 }

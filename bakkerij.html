@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=49" />
+  <link rel="stylesheet" href="styles.css?v=50" />
   <script>
     (function() {
       try {
@@ -162,58 +162,127 @@
     <div class="recipe-modal-card" id="recipeModalCard"></div>
   </div>
 
-  <!-- Modal: nieuw recept invoeren — keuzemenu met 3 manieren -->
+  <!-- Modal: nieuw recept invoeren — keuzemenu met 3 manieren OF het handmatige formulier -->
   <div class="recipe-modal" id="newRecipeModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="recipe-modal-backdrop" data-close></div>
     <div class="recipe-modal-card recipe-new-card">
       <button class="recipe-modal-close" data-close aria-label="Sluiten">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <h2 class="recipe-modal-title">Nieuw recept invoeren</h2>
-      <p class="recipe-modal-sub">Kies hoe je je recept wilt toevoegen.</p>
 
-      <div class="recipe-new-grid">
-        <!-- Optie 1: handmatig -->
-        <button class="recipe-new-option" type="button" data-method="manual">
-          <div class="recipe-new-icon">
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
-          </div>
-          <div class="recipe-new-text">
-            <div class="recipe-new-title">Handmatig invoeren</div>
-            <div class="recipe-new-desc">Typ je recept stap voor stap zelf in.</div>
-          </div>
-        </button>
+      <!-- VIEW 1: keuze tussen 3 methodes -->
+      <div class="recipe-new-view" data-view="options">
+        <h2 class="recipe-modal-title">Nieuw recept invoeren</h2>
+        <p class="recipe-modal-sub">Kies hoe je je recept wilt toevoegen.</p>
 
-        <!-- Optie 2: bestand uploaden -->
-        <button class="recipe-new-option" type="button" data-method="file">
-          <div class="recipe-new-icon">
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          </div>
-          <div class="recipe-new-text">
-            <div class="recipe-new-title">Een bestand invoegen</div>
-            <div class="recipe-new-desc">Upload een PDF, Word- of Excel-bestand.</div>
-          </div>
-        </button>
+        <div class="recipe-new-grid">
+          <button class="recipe-new-option" type="button" data-method="manual">
+            <div class="recipe-new-icon">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+            </div>
+            <div class="recipe-new-text">
+              <div class="recipe-new-title">Handmatig invoeren</div>
+              <div class="recipe-new-desc">Typ je recept stap voor stap zelf in.</div>
+            </div>
+          </button>
 
-        <!-- Optie 3: foto maken -->
-        <button class="recipe-new-option" type="button" data-method="photo">
-          <div class="recipe-new-icon">
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <button class="recipe-new-option" type="button" data-method="file">
+            <div class="recipe-new-icon">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div class="recipe-new-text">
+              <div class="recipe-new-title">Een bestand invoegen</div>
+              <div class="recipe-new-desc">Upload een PDF, Word- of Excel-bestand.</div>
+            </div>
+          </button>
+
+          <button class="recipe-new-option" type="button" data-method="photo">
+            <div class="recipe-new-icon">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <div class="recipe-new-text">
+              <div class="recipe-new-title">Maak een foto van het recept</div>
+              <div class="recipe-new-desc">Fotografeer een receptpagina — wij lezen 'm uit.</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: handmatig formulier -->
+      <div class="recipe-new-view" data-view="form" hidden>
+        <button class="recipe-modal-back" type="button" data-back-to-options>← Andere methode kiezen</button>
+        <h2 class="recipe-modal-title">Recept handmatig invoeren</h2>
+        <p class="recipe-modal-sub">Vul de gegevens in. Het recept verschijnt direct in je overzicht.</p>
+
+        <form id="manualRecipeForm" class="recipe-form" novalidate>
+          <!-- Eindproduct of halffabricaat -->
+          <div class="recipe-form-section">
+            <label class="recipe-form-label">Wat voor recept is dit?</label>
+            <div class="recipe-type-toggle" id="typeToggle">
+              <button type="button" class="recipe-type-btn active" data-type="eindproduct">Eindproduct</button>
+              <button type="button" class="recipe-type-btn" data-type="halffabricaat">Halffabricaat</button>
+            </div>
+            <p class="recipe-form-hint">Eindproduct = wat je verkoopt (bv. tompouce). Halffabricaat = bouwsteen die je in andere recepten gebruikt (bv. banketbakkersroom).</p>
           </div>
-          <div class="recipe-new-text">
-            <div class="recipe-new-title">Maak een foto van het recept</div>
-            <div class="recipe-new-desc">Fotografeer een receptpagina — wij lezen 'm uit.</div>
+
+          <!-- Naam -->
+          <div class="recipe-form-section">
+            <label class="recipe-form-label" for="newName">Naam van het recept *</label>
+            <input id="newName" type="text" required placeholder="bv. Aardbeienbavarois" />
           </div>
-        </button>
+
+          <!-- Opbrengst + tijd -->
+          <div class="recipe-form-row">
+            <div class="recipe-form-field">
+              <label class="recipe-form-label" for="newYield">Opbrengst *</label>
+              <input id="newYield" type="text" required placeholder="bv. 12 stuks of 1 kg" />
+            </div>
+            <div class="recipe-form-field">
+              <label class="recipe-form-label" for="newTime">Bereidingstijd</label>
+              <input id="newTime" type="text" placeholder="bv. 40 min" />
+            </div>
+          </div>
+
+          <!-- Ingrediënten -->
+          <div class="recipe-form-section">
+            <label class="recipe-form-label">Ingrediënten *</label>
+            <div id="ingredientRows" class="recipe-rows"></div>
+            <button type="button" class="recipe-row-add" id="addIngredient">+ Voeg ingrediënt toe</button>
+          </div>
+
+          <!-- Bereiding -->
+          <div class="recipe-form-section">
+            <label class="recipe-form-label">Bereidingsstappen *</label>
+            <div id="stepRows" class="recipe-rows"></div>
+            <button type="button" class="recipe-row-add" id="addStep">+ Voeg stap toe</button>
+          </div>
+
+          <!-- Notities -->
+          <div class="recipe-form-section">
+            <label class="recipe-form-label" for="newNotes">Notities (optioneel)</label>
+            <textarea id="newNotes" rows="2" placeholder="Tips, bewaaradvies, allergeen-info…"></textarea>
+          </div>
+
+          <div class="recipe-form-error" id="formError" hidden></div>
+
+          <div class="recipe-modal-actions">
+            <button class="ghost-btn" type="button" data-close>Annuleren</button>
+            <button class="btn-primary" type="submit">Recept toevoegen</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
-  <script src="auth.js?v=49"></script>
-  <script src="subrecipes.js?v=49"></script>
+  <!-- Toast: bevestiging na opslaan -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="auth.js?v=50"></script>
+  <script src="subrecipes.js?v=50"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
-    const GEBAK = [
+    // Built-in recepten (let, niet const — userrecepten worden eraan toegevoegd)
+    let GEBAK = [
       {
         name: 'Vanille Cremeux', desc: 'Romige vanille-insert op basis van witte chocolade — als vulling of laag in taarten en gebak.',
         time: '40 min + invriezen', yield: '2 stuks', diff: 'Gemiddeld',
@@ -325,14 +394,28 @@
 
     let searchTerm = '';
 
+    // ===== Door gebruiker zelf toegevoegde recepten (persisted in localStorage) =====
+    const USER_KEY = 'strik_user_recipes';
+    let USER_RECIPES = [];
+    try { USER_RECIPES = JSON.parse(localStorage.getItem(USER_KEY) || '[]'); }
+    catch (e) { USER_RECIPES = []; }
+
+    function saveUserRecipes() {
+      localStorage.setItem(USER_KEY, JSON.stringify(USER_RECIPES));
+    }
+    function allRecipes() {
+      return [...GEBAK, ...USER_RECIPES];
+    }
+
     function renderRecipeList() {
       const grid = document.getElementById('bakkerijRecipeGrid');
       const countEl = document.getElementById('bakkerijCount');
       const term = searchTerm.trim().toLowerCase();
-      const filtered = GEBAK.filter(r => {
+      const recipes = allRecipes();
+      const filtered = recipes.filter(r => {
         if (!term) return true;
         if (r.name.toLowerCase().includes(term)) return true;
-        if (r.desc.toLowerCase().includes(term)) return true;
+        if ((r.desc || '').toLowerCase().includes(term)) return true;
         return r.ingredients.some(i => i.toLowerCase().includes(term));
       });
 
@@ -343,22 +426,26 @@
         return;
       }
 
-      grid.innerHTML = filtered.map(r => `
-        <button class="recipe-card" type="button" data-recipe-index="${GEBAK.indexOf(r)}">
+      grid.innerHTML = filtered.map((r, i) => {
+        const badge = r.type === 'halffabricaat' ? 'Halffabricaat' : (r.cat || 'Gebak');
+        const userTag = r.isUser ? '<span class="recipe-card-mine">Eigen recept</span>' : '';
+        return `
+        <button class="recipe-card" type="button" data-recipe-index="${recipes.indexOf(r)}">
           <div class="recipe-card-head">
             <span class="recipe-card-icon">${CAT_ICON_GEBAK}</span>
-            <span class="recipe-card-badge">Gebak</span>
+            <span class="recipe-card-badge ${r.type === 'halffabricaat' ? 'half' : ''}">${badge}</span>
           </div>
           <h3 class="recipe-card-title">${r.name}</h3>
+          ${userTag}
           <div class="recipe-card-meta">
-            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ${r.time}</span>
+            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ${r.time || '—'}</span>
             <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg> ${r.yield}</span>
           </div>
           <div class="recipe-card-foot">
             <span class="recipe-card-cta">Bekijk recept →</span>
           </div>
         </button>
-      `).join('');
+      `;}).join('');
 
       grid.querySelectorAll('.recipe-card').forEach(card => {
         card.addEventListener('click', () => openRecipe(parseInt(card.dataset.recipeIndex, 10)));
@@ -489,7 +576,7 @@
     }
 
     function openRecipe(index) {
-      const r = GEBAK[index];
+      const r = allRecipes()[index];
       if (!r) return;
       recipeStack.length = 0; // verse stack bij openen van top-level recept
       renderRecipeModal(r, false);
@@ -645,13 +732,157 @@
       chip.addEventListener('click', () => handleAsk(chip.textContent));
     });
 
-    // Nieuw-recept knop opent de placeholder-modal
-    document.getElementById('newRecipeBtn').addEventListener('click', () => {
-      const m = document.getElementById('newRecipeModal');
-      m.classList.add('open');
-      m.setAttribute('aria-hidden', 'false');
+    // ===== "Nieuw recept invoeren" — modal opent met 3 keuzes; "Handmatig" → formulier =====
+    const newModal = document.getElementById('newRecipeModal');
+    const viewOptions = newModal.querySelector('[data-view="options"]');
+    const viewForm    = newModal.querySelector('[data-view="form"]');
+
+    function openNewRecipeModal() {
+      // Begin altijd op het keuze-scherm
+      switchNewView('options');
+      newModal.classList.add('open');
+      newModal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+    }
+    function switchNewView(name) {
+      viewOptions.hidden = (name !== 'options');
+      viewForm.hidden    = (name !== 'form');
+      if (name === 'form') {
+        resetForm();
+        setTimeout(() => document.getElementById('newName')?.focus(), 100);
+      }
+    }
+
+    document.getElementById('newRecipeBtn').addEventListener('click', openNewRecipeModal);
+
+    // Keuze-tegels
+    newModal.querySelectorAll('.recipe-new-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const method = opt.dataset.method;
+        if (method === 'manual') switchNewView('form');
+        else showToast(method === 'file' ? 'Bestand uploaden komt binnenkort.' : 'Foto maken komt binnenkort.');
+      });
     });
+
+    // Terug-knop in formulier
+    newModal.querySelector('[data-back-to-options]').addEventListener('click', () => switchNewView('options'));
+
+    // ----- Formulier-logica -----
+    let formType = 'eindproduct';
+    document.querySelectorAll('#typeToggle .recipe-type-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('#typeToggle .recipe-type-btn').forEach(x => x.classList.toggle('active', x === b));
+        formType = b.dataset.type;
+      });
+    });
+
+    function addIngredientRow(value = '') {
+      const wrap = document.getElementById('ingredientRows');
+      const row = document.createElement('div');
+      row.className = 'recipe-row';
+      row.innerHTML = `
+        <input type="text" class="recipe-row-input" placeholder="bv. 500 g bladerdeeg" value="${value}" />
+        <button type="button" class="recipe-row-remove" aria-label="Verwijderen">×</button>
+      `;
+      row.querySelector('.recipe-row-remove').addEventListener('click', () => row.remove());
+      wrap.appendChild(row);
+      row.querySelector('input').focus();
+    }
+    function addStepRow(value = '') {
+      const wrap = document.getElementById('stepRows');
+      const row = document.createElement('div');
+      row.className = 'recipe-row recipe-row-numbered';
+      row.innerHTML = `
+        <span class="recipe-row-num"></span>
+        <textarea class="recipe-row-input" rows="2" placeholder="bv. Verwarm de oven voor op 200 °C.">${value}</textarea>
+        <button type="button" class="recipe-row-remove" aria-label="Verwijderen">×</button>
+      `;
+      row.querySelector('.recipe-row-remove').addEventListener('click', () => { row.remove(); renumberSteps(); });
+      wrap.appendChild(row);
+      renumberSteps();
+      row.querySelector('textarea').focus();
+    }
+    function renumberSteps() {
+      document.querySelectorAll('#stepRows .recipe-row-numbered').forEach((row, i) => {
+        row.querySelector('.recipe-row-num').textContent = i + 1;
+      });
+    }
+
+    document.getElementById('addIngredient').addEventListener('click', () => addIngredientRow());
+    document.getElementById('addStep').addEventListener('click', () => addStepRow());
+
+    function resetForm() {
+      document.getElementById('manualRecipeForm').reset();
+      document.getElementById('ingredientRows').innerHTML = '';
+      document.getElementById('stepRows').innerHTML = '';
+      document.getElementById('formError').hidden = true;
+      // Start met 3 lege ingredient-rijen en 3 lege stap-rijen — voldoende voor de meeste recepten
+      addIngredientRow(); addIngredientRow(); addIngredientRow();
+      addStepRow(); addStepRow(); addStepRow();
+      // Reset type toggle naar eindproduct
+      formType = 'eindproduct';
+      document.querySelectorAll('#typeToggle .recipe-type-btn').forEach(x => {
+        x.classList.toggle('active', x.dataset.type === 'eindproduct');
+      });
+    }
+
+    document.getElementById('manualRecipeForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name  = document.getElementById('newName').value.trim();
+      const yld   = document.getElementById('newYield').value.trim();
+      const time  = document.getElementById('newTime').value.trim();
+      const notes = document.getElementById('newNotes').value.trim();
+      const ingredients = [...document.querySelectorAll('#ingredientRows .recipe-row-input')]
+        .map(i => i.value.trim()).filter(Boolean);
+      const steps = [...document.querySelectorAll('#stepRows .recipe-row-input')]
+        .map(s => s.value.trim()).filter(Boolean);
+
+      const err = document.getElementById('formError');
+      if (!name)              { err.textContent = 'Geef het recept een naam.'; err.hidden = false; return; }
+      if (!yld)               { err.textContent = 'Vul een opbrengst in (bv. "12 stuks").'; err.hidden = false; return; }
+      if (ingredients.length === 0) { err.textContent = 'Voeg minstens één ingrediënt toe.'; err.hidden = false; return; }
+      if (steps.length === 0)       { err.textContent = 'Voeg minstens één bereidingsstap toe.'; err.hidden = false; return; }
+      err.hidden = true;
+
+      const recipe = {
+        name,
+        type: formType,
+        cat: formType === 'halffabricaat' ? 'Halffabricaat' : 'Gebak',
+        desc: '',
+        time: time || '',
+        yield: yld,
+        diff: '',
+        ingredients,
+        steps,
+        notes,
+        isUser: true,
+        createdAt: Date.now(),
+      };
+
+      USER_RECIPES.push(recipe);
+      saveUserRecipes();
+      renderRecipeList();
+
+      // Sluit modal + toon bevestiging
+      newModal.classList.remove('open');
+      newModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      showToast(`'${name}' is toegevoegd aan je recepten.`);
+    });
+
+    // ----- Toast (bevestiging onderaan in beeld) -----
+    let toastTimer = null;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.hidden = false;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        t.classList.remove('show');
+        setTimeout(() => t.hidden = true, 300);
+      }, 3500);
+    }
 
     // Chat-widget open/close
     const fab    = document.getElementById('chatFab');
