@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=46" />
+  <link rel="stylesheet" href="styles.css?v=47" />
   <script>
     (function() {
       try {
@@ -179,14 +179,14 @@
     </div>
   </div>
 
-  <script src="auth.js?v=46"></script>
-  <script src="subrecipes.js?v=46"></script>
+  <script src="auth.js?v=47"></script>
+  <script src="subrecipes.js?v=47"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
     const GEBAK = [
       {
         name: 'Vanille Cremeux', desc: 'Romige vanille-insert op basis van witte chocolade — als vulling of laag in taarten en gebak.',
-        time: '40 min + invriezen', yield: '2 taarten (totaal 3.682 g)', diff: 'Gemiddeld',
+        time: '40 min + invriezen', yield: '2 stuks', diff: 'Gemiddeld',
         ingredients: [
           '1000 g melk',
           '550 g slagroom (gezoet)',
@@ -324,7 +324,6 @@
           <div class="recipe-card-meta">
             <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg> ${r.time}</span>
             <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg> ${r.yield}</span>
-            <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6a8 8 0 0 1-16 0z"/><path d="M9 20h6"/><path d="M12 16v4"/></svg> ${r.diff}</span>
           </div>
           <div class="recipe-card-foot">
             <span class="recipe-card-cta">Bekijk recept →</span>
@@ -391,7 +390,6 @@
             <h2 class="recipe-modal-title">${r.name}</h2>
             <div class="recipe-modal-meta">
               <span><strong>Bereidingstijd:</strong> ${r.time}</span>
-              <span><strong>Moeilijkheid:</strong> ${r.diff}</span>
             </div>
           </div>
         </div>
