@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=44" />
+  <link rel="stylesheet" href="styles.css?v=45" />
   <script>
     (function() {
       try {
@@ -179,8 +179,8 @@
     </div>
   </div>
 
-  <script src="auth.js?v=44"></script>
-  <script src="subrecipes.js?v=44"></script>
+  <script src="auth.js?v=45"></script>
+  <script src="subrecipes.js?v=45"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
     const GEBAK = [
@@ -320,7 +320,42 @@
     // wordt het huidige recept op de stack gepusht; via 'Terug' ga je weer terug.
     const recipeStack = [];
 
+    // === Helpers voor het schalen van hoeveelheden (×2 / ×3 / custom) ===
+    const FRAC = { '½': 0.5, '¼': 0.25, '¾': 0.75, '⅓': 1/3, '⅔': 2/3, '⅛': 0.125 };
+    function parseQty(s) {
+      if (FRAC[s] !== undefined) return FRAC[s];
+      return parseFloat(s.replace(',', '.'));
+    }
+    function formatQty(n) {
+      // Onder 1: probeer een breuk te tonen voor de mooie weergave
+      if (n > 0 && n < 1) {
+        const fracs = [['½', 0.5], ['¼', 0.25], ['¾', 0.75], ['⅓', 1/3], ['⅔', 2/3], ['⅛', 0.125]];
+        for (const [sym, val] of fracs) {
+          if (Math.abs(n - val) < 0.02) return sym;
+        }
+      }
+      // Bijna een geheel getal? rond af
+      if (Math.abs(n - Math.round(n)) < 0.05) return Math.round(n).toString();
+      // Anders met 1 decimaal, NL-formaat (komma)
+      return n.toFixed(1).replace('.', ',');
+    }
+    const NUM_RE = /([½¼¾⅓⅔⅛])|(\d+(?:[.,]\d+)?)/g;
+    function scaleText(text, mult) {
+      if (!mult || mult === 1) return text;
+      return text.replace(NUM_RE, m => {
+        const qty = parseQty(m);
+        if (!isFinite(qty)) return m;
+        return formatQty(qty * mult);
+      });
+    }
+
+    // Houd per modal-render het actieve recept + multiplier bij
+    let currentRecipe = null;
+    let currentMultiplier = 1;
+
     function renderRecipeModal(r, showBack) {
+      currentRecipe = r;
+      currentMultiplier = 1;
       const card = document.getElementById('recipeModalCard');
       const badge = r.cat || 'Gebak';
       card.innerHTML = `
@@ -335,15 +370,39 @@
             <h2 class="recipe-modal-title">${r.name}</h2>
             <div class="recipe-modal-meta">
               <span><strong>Bereidingstijd:</strong> ${r.time}</span>
-              <span><strong>Opbrengst:</strong> ${r.yield}</span>
               <span><strong>Moeilijkheid:</strong> ${r.diff}</span>
             </div>
           </div>
         </div>
+
+        <!-- Prominente opbrengst + schaal-knoppen -->
+        <div class="recipe-yield-box">
+          <div class="recipe-yield-info">
+            <div class="recipe-yield-label">Opbrengst</div>
+            <div class="recipe-yield-value" id="yieldValue">${r.yield}</div>
+          </div>
+          <div class="recipe-scale">
+            <div class="recipe-scale-label">Schaal het recept</div>
+            <div class="recipe-scale-buttons">
+              <button class="recipe-mult-btn active" data-mult="1" type="button">×1</button>
+              <button class="recipe-mult-btn" data-mult="2" type="button">×2</button>
+              <button class="recipe-mult-btn" data-mult="3" type="button">×3</button>
+              <button class="recipe-mult-btn" data-mult="5" type="button">×5</button>
+              <label class="recipe-mult-custom">
+                <span>×</span>
+                <input type="number" min="1" max="100" step="1" placeholder="?" id="customMult" />
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="recipe-scale-note" id="scaleNote" hidden>
+          Ingrediënten en opbrengst zijn aangepast. Bereidingstijd en oventemperatuur blijven gelijk.
+        </div>
+
         <div class="recipe-modal-body">
           <section class="recipe-section">
             <h3 class="recipe-section-title">Ingrediënten</h3>
-            <ul class="recipe-ingredients">${r.ingredients.map(i => `<li>${linkifyIngredient(i)}</li>`).join('')}</ul>
+            <ul class="recipe-ingredients" id="ingredientsList">${r.ingredients.map(i => `<li>${linkifyIngredient(i)}</li>`).join('')}</ul>
           </section>
           <section class="recipe-section">
             <h3 class="recipe-section-title">Bereiding</h3>
@@ -356,6 +415,29 @@
           <button class="btn-primary" type="button">Recept bewerken</button>
         </div>
       `;
+    }
+
+    // Schaal alleen de opbrengst en de ingredient-regels, niet de bereidingsstappen.
+    function applyMultiplier(mult, sourceIsCustom) {
+      currentMultiplier = mult;
+      const r = currentRecipe;
+      if (!r) return;
+
+      const yEl = document.getElementById('yieldValue');
+      if (yEl) yEl.textContent = scaleText(r.yield, mult);
+
+      const iEl = document.getElementById('ingredientsList');
+      if (iEl) iEl.innerHTML = r.ingredients.map(i => `<li>${linkifyIngredient(scaleText(i, mult))}</li>`).join('');
+
+      document.querySelectorAll('#recipeModalCard .recipe-mult-btn').forEach(b => {
+        const v = parseFloat(b.dataset.mult);
+        b.classList.toggle('active', !sourceIsCustom && v === mult);
+      });
+      const ci = document.getElementById('customMult');
+      if (ci && !sourceIsCustom) ci.value = '';
+
+      const note = document.getElementById('scaleNote');
+      if (note) note.hidden = mult === 1;
     }
 
     function openRecipe(index) {
@@ -385,20 +467,32 @@
       document.getElementById('recipeModalCard').scrollTop = 0;
     }
 
-    // Klik-handler binnen de modal: vang sub-recipe links en 'Terug' op.
+    // Klik-handler binnen de modal: vang sub-recipe links, 'Terug' en multiplier-knoppen op.
     document.getElementById('recipeModalCard').addEventListener('click', e => {
+      const multBtn = e.target.closest('.recipe-mult-btn');
+      if (multBtn) {
+        e.preventDefault();
+        applyMultiplier(parseFloat(multBtn.dataset.mult), false);
+        return;
+      }
       const link = e.target.closest('.ingredient-link');
       if (link) {
         e.preventDefault();
-        // Bewaar het huidige recept (top van de zichtbare modal) om terug te kunnen.
-        const currentTitle = document.querySelector('.recipe-modal-title')?.textContent;
-        const currentRecipe = [...GEBAK, ...Object.values(SUBRECIPES)].find(r => r.name === currentTitle);
         openSubrecipe(link.dataset.subrecipe, currentRecipe);
         return;
       }
       if (e.target.closest('[data-back]')) {
         e.preventDefault();
         goBackInRecipe();
+      }
+    });
+
+    // Custom multiplier-input (rechtsonder de presets)
+    document.getElementById('recipeModalCard').addEventListener('input', e => {
+      if (e.target.id === 'customMult') {
+        const v = parseFloat(e.target.value);
+        if (v && v > 0 && v <= 100) applyMultiplier(v, true);
+        else if (!e.target.value) applyMultiplier(1, false);
       }
     });
     document.addEventListener('click', (e) => {
