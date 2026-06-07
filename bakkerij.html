@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=43" />
+  <link rel="stylesheet" href="styles.css?v=44" />
   <script>
     (function() {
       try {
@@ -71,6 +71,13 @@
             <span class="client-pill">Strik Patisserie</span>
           </div>
           <p class="page-sub">Recepten van het assortiment, en een eigen AI-assistent voor alle vragen over de bakkerij.</p>
+        </div>
+
+        <div class="topbar-controls">
+          <button class="btn-primary btn-primary-lg" id="newRecipeBtn" type="button">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nieuw recept invoeren
+          </button>
         </div>
       </header>
 
@@ -155,8 +162,25 @@
     <div class="recipe-modal-card" id="recipeModalCard"></div>
   </div>
 
-  <script src="auth.js?v=43"></script>
-  <script src="subrecipes.js?v=43"></script>
+  <!-- Modal: nieuw recept invoeren (placeholder — inhoud volgt) -->
+  <div class="recipe-modal" id="newRecipeModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="recipe-modal-backdrop" data-close></div>
+    <div class="recipe-modal-card recipe-modal-small">
+      <button class="recipe-modal-close" data-close aria-label="Sluiten">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="recipe-modal-badge"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      <h2 class="recipe-modal-title">Nieuw recept invoeren</h2>
+      <p class="recipe-modal-sub">Hier komt het invoer-formulier voor een nieuw recept: productnaam, categorie, ingrediënten en bereidingsstappen. We vullen dit samen in de volgende stap in.</p>
+      <div class="recipe-modal-actions">
+        <button class="ghost-btn" data-close>Sluiten</button>
+        <button class="btn-primary" disabled>Recept opslaan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js?v=44"></script>
+  <script src="subrecipes.js?v=44"></script>
   <script>
     // ===== Gebak-assortiment van Strik Patisserie (voorbeelden) =====
     const GEBAK = [
@@ -477,6 +501,14 @@
 
     document.querySelectorAll('#bakkerijSuggestions .bakkerij-chip').forEach(chip => {
       chip.addEventListener('click', () => handleAsk(chip.textContent));
+    });
+
+    // Nieuw-recept knop opent de placeholder-modal
+    document.getElementById('newRecipeBtn').addEventListener('click', () => {
+      const m = document.getElementById('newRecipeModal');
+      m.classList.add('open');
+      m.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     });
 
     // Chat-widget open/close
