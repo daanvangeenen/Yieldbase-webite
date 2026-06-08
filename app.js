@@ -18,10 +18,10 @@ const STORES = {
     summary: 'De totale omzet over alle winkels en de webshop is deze week <strong>€ 67.450</strong>. Goed bezig, dit is <strong class="up">6,8% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
-      omzet:     { value: '€ 67.450', delta: '+6,8%', dir: 'up' },
-      klanten:   { value: '4.895',    delta: '+5,6%', dir: 'up' },
-      besteding: { value: '€ 13,78',  delta: '+1,1%', dir: 'up' },
-      retouren:  { value: '€ 482',    delta: '+4,2%', dir: 'up' },
+      omzet:      { value: '€ 67.450', delta: '+6,8%', dir: 'up' },
+      klanten:    { value: '4.895',    delta: '+5,6%', dir: 'up' },
+      besteding:  { value: '€ 13,78',  delta: '+1,1%', dir: 'up' },
+      brutomarge: { value: '71%',      delta: '-2,0%', dir: 'down' },
     },
   },
 
@@ -30,10 +30,10 @@ const STORES = {
     summary: 'De omzet van Ziekerstraat is deze week <strong>€ 19.420</strong>. Goed bezig, dit is <strong class="up">7,4% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
-      omzet:     { value: '€ 19.420', delta: '+7,4%', dir: 'up' },
-      klanten:   { value: '1.410',    delta: '+5,9%', dir: 'up' },
-      besteding: { value: '€ 13,77',  delta: '+1,4%', dir: 'up' },
-      retouren:  { value: '€ 138',    delta: '+3,8%', dir: 'up' },
+      omzet:      { value: '€ 19.420', delta: '+7,4%', dir: 'up' },
+      klanten:    { value: '1.410',    delta: '+5,9%', dir: 'up' },
+      besteding:  { value: '€ 13,77',  delta: '+1,4%', dir: 'up' },
+      brutomarge: { value: '72%',      delta: '-1,5%', dir: 'down' },
     },
   },
 
@@ -42,10 +42,10 @@ const STORES = {
     summary: 'De omzet van Heyendaal is deze week <strong>€ 16.110</strong>. Goed bezig, dit is <strong class="up">4,1% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
-      omzet:     { value: '€ 16.110', delta: '+4,1%', dir: 'up' },
-      klanten:   { value: '1.200',    delta: '+3,5%', dir: 'up' },
-      besteding: { value: '€ 13,43',  delta: '+0,6%', dir: 'up' },
-      retouren:  { value: '€ 115',    delta: '+5,2%', dir: 'up' },
+      omzet:      { value: '€ 16.110', delta: '+4,1%', dir: 'up' },
+      klanten:    { value: '1.200',    delta: '+3,5%', dir: 'up' },
+      besteding:  { value: '€ 13,43',  delta: '+0,6%', dir: 'up' },
+      brutomarge: { value: '70%',      delta: '-2,2%', dir: 'down' },
     },
   },
 
@@ -54,10 +54,10 @@ const STORES = {
     summary: 'De omzet van Lent is deze week <strong>€ 12.860</strong>. Goed bezig, dit is <strong class="up">9,2% hoger</strong> dan in dezelfde week vorig jaar — de sterkste groei van al je winkels.',
     closing: CLOSING_DEFAULT,
     kpis: {
-      omzet:     { value: '€ 12.860', delta: '+9,2%', dir: 'up' },
-      klanten:   { value: '925',      delta: '+6,8%', dir: 'up' },
-      besteding: { value: '€ 13,90',  delta: '+2,1%', dir: 'up' },
-      retouren:  { value: '€ 92',     delta: '+4,1%', dir: 'up' },
+      omzet:      { value: '€ 12.860', delta: '+9,2%', dir: 'up' },
+      klanten:    { value: '925',      delta: '+6,8%', dir: 'up' },
+      besteding:  { value: '€ 13,90',  delta: '+2,1%', dir: 'up' },
+      brutomarge: { value: '73%',      delta: '-1,8%', dir: 'down' },
     },
   },
 
@@ -66,10 +66,10 @@ const STORES = {
     summary: 'De omzet van Daalseweg is deze week <strong>€ 9.850</strong>. Dit is <strong class="down">1,3% lager</strong> dan in dezelfde week vorig jaar — even op letten.',
     closing: 'Klik op een van de blokjes hieronder voor meer details over wat hier speelt.',
     kpis: {
-      omzet:     { value: '€ 9.850',  delta: '-1,3%', dir: 'down' },
-      klanten:   { value: '720',      delta: '-1,0%', dir: 'down' },
-      besteding: { value: '€ 13,68',  delta: '-0,3%', dir: 'down' },
-      retouren:  { value: '€ 71',     delta: '+2,9%', dir: 'up' },
+      omzet:      { value: '€ 9.850',  delta: '-1,3%', dir: 'down' },
+      klanten:    { value: '720',      delta: '-1,0%', dir: 'down' },
+      besteding:  { value: '€ 13,68',  delta: '-0,3%', dir: 'down' },
+      brutomarge: { value: '69%',      delta: '-2,5%', dir: 'down' },
     },
   },
 };
@@ -100,7 +100,7 @@ function renderStore(storeKey) {
   renderKpiCard('omzet', store.kpis.omzet);
   renderKpiCard('klanten', store.kpis.klanten);
   renderKpiCard('besteding', store.kpis.besteding);
-  renderKpiCard('retouren', store.kpis.retouren);
+  renderKpiCard('brutomarge', store.kpis.brutomarge);
 
   const summaryEl = document.getElementById('heroKpiSummary');
   const closingEl = document.getElementById('heroClosing');
