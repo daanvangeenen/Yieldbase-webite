@@ -2453,6 +2453,94 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .kostprijs-table .num.up   { color: var(--green); font-weight: 600; }
 .kostprijs-table .num.down { color: #c0392b; font-weight: 600; }
 
+/* Filter-rij met target-marge instelling rechts */
+.kost-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.kost-filter-row .recipe-filters { flex: 1; }
+
+.kost-target-card {
+  background: #fff;
+  border-radius: 999px;
+  padding: 6px 8px 6px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  box-shadow: 0 1px 2px rgba(20, 24, 27, 0.04);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.kost-target-label {
+  color: var(--text-soft);
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.kost-target-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--cream-light);
+  border-radius: 999px;
+  padding: 3px 4px;
+}
+.kost-target-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.kost-target-btn:hover {
+  background: var(--wine);
+  color: #fff;
+  border-color: var(--wine);
+}
+.kost-target-card input {
+  width: 36px;
+  text-align: center;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.kost-target-card input::-webkit-outer-spin-button,
+.kost-target-card input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.kost-target-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-left: -2px;
+  margin-right: 4px;
+}
+
+@media (max-width: 800px) {
+  .kost-filter-row { flex-direction: column; align-items: stretch; }
+  .kost-target-card { align-self: flex-end; }
+}
+
 .cat-pill {
   display: inline-block;
   background: var(--cream-light);

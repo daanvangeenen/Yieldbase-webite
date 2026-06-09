@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=57" />
+  <link rel="stylesheet" href="styles.css?v=58" />
   <script>
     (function() {
       try {
@@ -101,7 +101,7 @@
           <div class="stat-delta" id="statAvgMarginDelta">vs. vorige periode</div>
         </div>
         <div class="stat-block">
-          <div class="stat-label">Producten onder 60% marge</div>
+          <div class="stat-label" id="statLowMarginLabel">Producten onder 60% marge</div>
           <div class="stat-value" id="statLowMargin">—</div>
           <div class="stat-delta">verdienen aandacht</div>
         </div>
@@ -117,11 +117,23 @@
         </div>
       </section>
 
-      <!-- Categorie-filters -->
-      <section class="recipe-filters" id="kostFilters">
-        <button class="recipe-filter active" data-cat="all">Alle producten</button>
-        <button class="recipe-filter" data-cat="Gebak">Gebak</button>
-        <button class="recipe-filter" data-cat="Taart op bestelling">Taart op bestelling</button>
+      <!-- Filters + target-marge instelling -->
+      <section class="kost-filter-row">
+        <div class="recipe-filters" id="kostFilters">
+          <button class="recipe-filter active" data-cat="all">Alle producten</button>
+          <button class="recipe-filter" data-cat="Gebak">Gebak</button>
+          <button class="recipe-filter" data-cat="Taart op bestelling">Taart op bestelling</button>
+        </div>
+
+        <div class="kost-target-card" title="Producten onder deze marge worden rood gemarkeerd">
+          <span class="kost-target-label">Target marge</span>
+          <div class="kost-target-controls">
+            <button class="kost-target-btn" type="button" data-step="-1" aria-label="Verlaag">−</button>
+            <input id="targetMargin" type="number" min="0" max="100" step="1" value="60" />
+            <span class="kost-target-pct">%</span>
+            <button class="kost-target-btn" type="button" data-step="1" aria-label="Verhoog">+</button>
+          </div>
+        </div>
       </section>
 
       <!-- Tabel met alle producten -->
@@ -160,7 +172,7 @@
     </main>
   </div>
 
-  <script src="auth.js?v=57"></script>
+  <script src="auth.js?v=58"></script>
   <script>
     // ===== Productdata van het Oonk-gebakassortiment =====
     // Verkoopprijzen overgenomen van webshop.oonk.nl/assortiment/gebak-taarten/gebak.
@@ -223,9 +235,26 @@
       return `<span class="trend-pill stable">— stabiel</span>`;
     }
 
+    // === Target marge — bewaard in localStorage zodat de instelling blijft ===
+    const TARGET_KEY = 'kost_target_margin';
+    let targetMargin = parseInt(localStorage.getItem(TARGET_KEY) || '60', 10);
+    if (!isFinite(targetMargin) || targetMargin < 0 || targetMargin > 100) targetMargin = 60;
+
+    function setTargetMargin(v) {
+      const clamped = Math.max(0, Math.min(100, Math.round(v)));
+      targetMargin = clamped;
+      localStorage.setItem(TARGET_KEY, String(targetMargin));
+      const inp = document.getElementById('targetMargin');
+      if (inp) inp.value = targetMargin;
+      // Stat-label en filter updaten
+      const lbl = document.getElementById('statLowMarginLabel');
+      if (lbl) lbl.textContent = `Producten onder ${targetMargin}% marge`;
+      renderTable();
+    }
+
     function margePctClass(pct) {
-      if (pct < 55) return 'down';
-      if (pct < 65) return '';
+      if (pct < targetMargin) return 'down';
+      if (pct < targetMargin + 5) return '';
       return 'up';
     }
 
@@ -267,12 +296,12 @@
 
       // Update summary stats voor de getoonde set
       const avg     = list.reduce((s, p) => s + ((p.sale - p.cost) / p.sale * 100), 0) / list.length;
-      const low     = list.filter(p => ((p.sale - p.cost) / p.sale * 100) < 60).length;
+      const low     = list.filter(p => ((p.sale - p.cost) / p.sale * 100) < targetMargin).length;
       const falling = list.filter(p => p.trend === 'down').length;
       const top     = list.slice().sort((a, b) => ((b.sale - b.cost) / b.sale) - ((a.sale - a.cost) / a.sale))[0];
       document.getElementById('statAvgMargin').textContent = fmtPct(avg, 1);
-      document.getElementById('statAvgMarginDelta').textContent = avg >= 65 ? 'gezonde range' : 'onder de 65% target';
-      document.getElementById('statAvgMarginDelta').className = 'stat-delta ' + (avg >= 65 ? 'up' : 'down');
+      document.getElementById('statAvgMarginDelta').textContent = avg >= targetMargin ? `boven target van ${targetMargin}%` : `onder target van ${targetMargin}%`;
+      document.getElementById('statAvgMarginDelta').className = 'stat-delta ' + (avg >= targetMargin ? 'up' : 'down');
       document.getElementById('statLowMargin').textContent = low;
       document.getElementById('statFalling').textContent = falling;
       if (top) {
@@ -294,7 +323,20 @@
       renderTable();
     });
 
-    renderTable();
+    // Target marge: +/- knoppen en directe invoer
+    document.querySelectorAll('.kost-target-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = parseInt(btn.dataset.step, 10);
+        setTargetMargin(targetMargin + step);
+      });
+    });
+    document.getElementById('targetMargin').addEventListener('input', e => {
+      const v = parseInt(e.target.value, 10);
+      if (isFinite(v)) setTargetMargin(v);
+    });
+
+    // Init met opgeslagen target marge
+    setTargetMargin(targetMargin);
   </script>
 </body>
 </html>
