@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=55" />
+  <link rel="stylesheet" href="styles.css?v=56" />
   <script>
     (function() {
       try {
@@ -120,11 +120,8 @@
       <!-- Categorie-filters -->
       <section class="recipe-filters" id="kostFilters">
         <button class="recipe-filter active" data-cat="all">Alle producten</button>
-        <button class="recipe-filter" data-cat="Brood">Brood</button>
         <button class="recipe-filter" data-cat="Gebak">Gebak</button>
-        <button class="recipe-filter" data-cat="Koek & klein">Koek &amp; klein</button>
         <button class="recipe-filter" data-cat="Taart op bestelling">Taart op bestelling</button>
-        <button class="recipe-filter" data-cat="Overig">Overig</button>
       </section>
 
       <!-- Tabel met alle producten -->
@@ -163,48 +160,47 @@
     </main>
   </div>
 
-  <script src="auth.js?v=55"></script>
+  <script src="auth.js?v=56"></script>
   <script>
-    // ===== Productdata met kost-/verkoopprijs en marge =====
-    // 'trend' geeft de marge-richting weer van de afgelopen 3 weken.
-    // Boterprijs +8% zorgt voor druk op tompouce, slagroomtaart, eclair.
+    // ===== Productdata van het Oonk-gebakassortiment =====
+    // Verkoopprijzen overgenomen van webshop.oonk.nl/assortiment/gebak-taarten/gebak.
+    // Kostprijzen op basis van ~33% kostprijs-ratio (premium patisserie).
+    // 'trend' = margerichting afgelopen 3 weken — boterprijs +8% drukt slagroom-/mokka-gebak.
     const PRODUCTS = [
-      // Brood
-      { name: 'Bruin desem',          cat: 'Brood',               sale: 3.80,  cost: 0.95,  trend: 'stable',  trendVal: 0    },
-      { name: 'Wit casino',           cat: 'Brood',               sale: 3.40,  cost: 0.75,  trend: 'stable',  trendVal: 0    },
-      { name: 'Tijgerbrood half',     cat: 'Brood',               sale: 2.10,  cost: 0.65,  trend: 'stable',  trendVal: 0    },
-      { name: 'Krentenbol XL',        cat: 'Brood',               sale: 1.40,  cost: 0.45,  trend: 'down',    trendVal: -1.2 },
+      // Gebak (per stuk)
+      { name: 'Gesorteerd slagroom gebak',      cat: 'Gebak',               sale: 3.40,  cost: 1.15, trend: 'down',   trendVal: -2.0 },
+      { name: 'Gesorteerd gebak',               cat: 'Gebak',               sale: 3.55,  cost: 1.20, trend: 'down',   trendVal: -1.8 },
+      { name: 'Gesorteerd luxe bombe gebak',    cat: 'Gebak',               sale: 3.80,  cost: 1.30, trend: 'down',   trendVal: -1.6 },
+      { name: 'Mango exotic',                   cat: 'Gebak',               sale: 3.80,  cost: 1.40, trend: 'stable', trendVal: 0    },
+      { name: 'Caramel noten bombe',            cat: 'Gebak',               sale: 3.80,  cost: 1.35, trend: 'stable', trendVal: 0    },
+      { name: 'Fraise bombe',                   cat: 'Gebak',               sale: 3.80,  cost: 1.40, trend: 'up',     trendVal: 1.5  },
+      { name: 'Vanille Arabica',                cat: 'Gebak',               sale: 3.80,  cost: 1.30, trend: 'stable', trendVal: 0    },
+      { name: 'Monchou gebakje',                cat: 'Gebak',               sale: 3.80,  cost: 1.35, trend: 'stable', trendVal: 0    },
+      { name: 'Caramelslofje',                  cat: 'Gebak',               sale: 3.60,  cost: 1.30, trend: 'stable', trendVal: 0    },
+      { name: 'Aardbeien bavaroise slofje',     cat: 'Gebak',               sale: 3.60,  cost: 1.35, trend: 'up',     trendVal: 1.2  },
+      { name: 'Mandarijn/koffie slofje',        cat: 'Gebak',               sale: 3.60,  cost: 1.25, trend: 'stable', trendVal: 0    },
+      { name: 'Lemon meringue slofje',          cat: 'Gebak',               sale: 3.60,  cost: 1.25, trend: 'stable', trendVal: 0    },
+      { name: 'Bananensoes',                    cat: 'Gebak',               sale: 3.35,  cost: 1.15, trend: 'stable', trendVal: 0    },
+      { name: 'Tukker bol',                     cat: 'Gebak',               sale: 3.35,  cost: 1.15, trend: 'stable', trendVal: 0    },
+      { name: 'Slagroom hazelino',              cat: 'Gebak',               sale: 3.35,  cost: 1.15, trend: 'down',   trendVal: -1.7 },
+      { name: 'Mokka hazelino',                 cat: 'Gebak',               sale: 3.35,  cost: 1.15, trend: 'down',   trendVal: -1.9 },
+      { name: 'Appelpunt',                      cat: 'Gebak',               sale: 3.15,  cost: 0.95, trend: 'stable', trendVal: 0    },
+      { name: 'Appelpunt met slagroom',         cat: 'Gebak',               sale: 3.35,  cost: 1.10, trend: 'down',   trendVal: -1.5 },
+      { name: 'Tompouce',                       cat: 'Gebak',               sale: 3.15,  cost: 1.10, trend: 'down',   trendVal: -2.4 },
+      { name: 'Slagroom punt',                  cat: 'Gebak',               sale: 3.35,  cost: 1.15, trend: 'down',   trendVal: -1.6 },
+      { name: 'Berenklauw',                     cat: 'Gebak',               sale: 3.20,  cost: 1.05, trend: 'stable', trendVal: 0    },
+      { name: 'Kozakken',                       cat: 'Gebak',               sale: 3.10,  cost: 1.00, trend: 'stable', trendVal: 0    },
+      { name: 'Oublie melk',                    cat: 'Gebak',               sale: 3.15,  cost: 1.10, trend: 'down',   trendVal: -1.5 },
+      { name: 'Oublie puur',                    cat: 'Gebak',               sale: 3.15,  cost: 1.10, trend: 'down',   trendVal: -1.5 },
+      { name: 'Kinder cupcakes',                cat: 'Gebak',               sale: 2.25,  cost: 0.80, trend: 'stable', trendVal: 0    },
+      { name: 'Slagroomsoesje 7 st.',           cat: 'Gebak',               sale: 2.95,  cost: 1.00, trend: 'down',   trendVal: -1.8 },
+      { name: 'Room hoorntjes 10 st.',          cat: 'Gebak',               sale: 5.95,  cost: 2.10, trend: 'down',   trendVal: -1.7 },
 
-      // Gebak
-      { name: 'Strikgebakje',         cat: 'Gebak',               sale: 2.95,  cost: 0.85,  trend: 'down',    trendVal: -1.5 },
-      { name: 'Tompouce',             cat: 'Gebak',               sale: 2.75,  cost: 0.95,  trend: 'down',    trendVal: -2.4 },
-      { name: 'Eclair',               cat: 'Gebak',               sale: 2.95,  cost: 1.05,  trend: 'down',    trendVal: -2.1 },
-      { name: 'Slagroomgebakje',      cat: 'Gebak',               sale: 2.50,  cost: 0.80,  trend: 'stable',  trendVal: -0.2 },
-      { name: 'Mokkagebakje',         cat: 'Gebak',               sale: 2.75,  cost: 0.90,  trend: 'stable',  trendVal: 0    },
-      { name: 'Bavarois framboos',    cat: 'Gebak',               sale: 3.25,  cost: 1.15,  trend: 'stable',  trendVal: -0.3 },
-      { name: 'Saksisch gebak',       cat: 'Gebak',               sale: 2.95,  cost: 1.00,  trend: 'stable',  trendVal: 0    },
-      { name: 'Citroengebakje',       cat: 'Gebak',               sale: 2.85,  cost: 1.05,  trend: 'up',      trendVal: 0.8  },
-      { name: 'Schwarzwaldgebakje',   cat: 'Gebak',               sale: 3.50,  cost: 1.30,  trend: 'down',    trendVal: -1.1 },
-      { name: 'Mille-feuille vanille',cat: 'Gebak',               sale: 3.15,  cost: 1.10,  trend: 'down',    trendVal: -1.4 },
-      { name: 'Aardbeiengebakje',     cat: 'Gebak',               sale: 2.95,  cost: 1.05,  trend: 'up',      trendVal: 1.2  },
-      { name: 'Chocolade fondant',    cat: 'Gebak',               sale: 3.25,  cost: 1.20,  trend: 'down',    trendVal: -0.9 },
-      { name: 'Vruchtenvlaai mini',   cat: 'Gebak',               sale: 1.95,  cost: 0.75,  trend: 'stable',  trendVal: 0    },
-      { name: 'Roomhoorntje',         cat: 'Gebak',               sale: 2.25,  cost: 0.70,  trend: 'stable',  trendVal: -0.2 },
-      { name: 'Petitfours (per stuk)',cat: 'Gebak',               sale: 1.25,  cost: 0.45,  trend: 'stable',  trendVal: 0    },
-
-      // Koek & klein
-      { name: 'Croissant',            cat: 'Koek & klein',        sale: 1.50,  cost: 0.45,  trend: 'stable',  trendVal: -0.2 },
-      { name: 'Appelflap',            cat: 'Koek & klein',        sale: 1.75,  cost: 0.55,  trend: 'stable',  trendVal: 0    },
-      { name: 'Worstenbroodje',       cat: 'Koek & klein',        sale: 2.25,  cost: 0.85,  trend: 'stable',  trendVal: 0    },
-      { name: 'Saucijzenbroodje',     cat: 'Koek & klein',        sale: 2.45,  cost: 0.90,  trend: 'stable',  trendVal: 0    },
-      { name: 'Bokkenpootje',         cat: 'Koek & klein',        sale: 1.85,  cost: 0.65,  trend: 'stable',  trendVal: 0    },
-
-      // Taart op bestelling
-      { name: 'Slagroomtaart 8p',     cat: 'Taart op bestelling', sale: 22.50, cost: 7.80,  trend: 'down',    trendVal: -1.8 },
-      { name: 'Nougatine-taart 10p',  cat: 'Taart op bestelling', sale: 28.50, cost: 11.20, trend: 'down',    trendVal: -1.2 },
-
-      // Overig
-      { name: 'Bonbondoos 9 stuks',   cat: 'Overig',              sale: 14.95, cost: 5.40,  trend: 'stable',  trendVal: 0    },
+      // Taart / op bestelling
+      { name: 'Mini sloffen parade',            cat: 'Taart op bestelling', sale: 11.50, cost: 4.50, trend: 'stable', trendVal: 0    },
+      { name: 'Grandini Fleur 6 stuks',         cat: 'Taart op bestelling', sale: 16.95, cost: 6.40, trend: 'stable', trendVal: 0    },
+      { name: 'Petit four klassiek 8 stuks',    cat: 'Taart op bestelling', sale: 18.80, cost: 7.20, trend: 'stable', trendVal: 0    },
+      { name: 'Petit fleur 6 stuks',            cat: 'Taart op bestelling', sale: 12.95, cost: 4.80, trend: 'stable', trendVal: 0    },
     ];
 
     function fmtEuro(n) {
