@@ -26,8 +26,8 @@ const STORES = {
   },
 
   ziekerstraat: {
-    name: 'Ziekerstraat',
-    summary: 'De omzet van Ziekerstraat is deze week <strong>€ 19.420</strong>. Goed bezig, dit is <strong class="up">7,4% hoger</strong> dan in dezelfde week vorig jaar.',
+    name: 'Wetstraat',
+    summary: 'De omzet van Wetstraat is deze week <strong>€ 19.420</strong>. Goed bezig, dit is <strong class="up">7,4% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:      { value: '€ 19.420', delta: '+7,4%', dir: 'up' },
@@ -38,8 +38,8 @@ const STORES = {
   },
 
   heyendaal: {
-    name: 'Heyendaal',
-    summary: 'De omzet van Heyendaal is deze week <strong>€ 16.110</strong>. Goed bezig, dit is <strong class="up">4,1% hoger</strong> dan in dezelfde week vorig jaar.',
+    name: 'Kuipersdijk',
+    summary: 'De omzet van Kuipersdijk is deze week <strong>€ 16.110</strong>. Goed bezig, dit is <strong class="up">4,1% hoger</strong> dan in dezelfde week vorig jaar.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:      { value: '€ 16.110', delta: '+4,1%', dir: 'up' },
@@ -50,8 +50,8 @@ const STORES = {
   },
 
   lent: {
-    name: 'Lent',
-    summary: 'De omzet van Lent is deze week <strong>€ 12.860</strong>. Goed bezig, dit is <strong class="up">9,2% hoger</strong> dan in dezelfde week vorig jaar — de sterkste groei van al je winkels.',
+    name: 'Wesseler',
+    summary: 'De omzet van Wesseler is deze week <strong>€ 12.860</strong>. Goed bezig, dit is <strong class="up">9,2% hoger</strong> dan in dezelfde week vorig jaar — de sterkste groei van al je winkels.',
     closing: CLOSING_DEFAULT,
     kpis: {
       omzet:      { value: '€ 12.860', delta: '+9,2%', dir: 'up' },
@@ -62,8 +62,8 @@ const STORES = {
   },
 
   daalseweg: {
-    name: 'Daalseweg',
-    summary: 'De omzet van Daalseweg is deze week <strong>€ 9.850</strong>. Dit is <strong class="down">1,3% lager</strong> dan in dezelfde week vorig jaar — even op letten.',
+    name: 'Gronause',
+    summary: 'De omzet van Gronause is deze week <strong>€ 9.850</strong>. Dit is <strong class="down">1,3% lager</strong> dan in dezelfde week vorig jaar — even op letten.',
     closing: 'Klik op een van de blokjes hieronder voor meer details over wat hier speelt.',
     kpis: {
       omzet:      { value: '€ 9.850',  delta: '-1,3%', dir: 'down' },
